@@ -1,0 +1,69 @@
+---
+title: "UW - Big Data and Data Mining / Data analysis practice"
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+```{r}
+1 + 1
+```
+
+# Posibles contenidos
+
+It would be good to mention the using of legal knowledge bases from the big data perspective. They are available mostly in national languages but the EU Eurolex and Curia are available in all official EU languages. 
+
+<https://eur-lex.europa.eu/homepage.html?locale=pl>
+
+<https://curia.europa.eu/jcms/jcms/Jo1_6308/>
+
+<https://www.echr.coe.int/Pages/home.aspx?p=caselaw/HUDOC&c=>
+
+<https://uncitral.un.org/sites/uncitral.un.org/files/media-documents/uncitral/en/facts_about_clout_eng_ebook.pdf>
+
+<https://www.ilo.org/inform/online-information-resources/databases/terminology/lang--en/index.htm>
+
+<https://op.europa.eu/pl/web/eu-vocabularies/det>
+
+<https://op.europa.eu/pl/web/eu-vocabularies/dataset/-/resource?uri=http://publications.europa.eu/resource/dataset/eurovoc>
+
+<https://unimelb.libguides.com/c.php?g=929605&p=6716619>
+
+<https://www.icj-cij.org/en/cases>
+
+<https://www.icc-cpi.int/cases>
+
+# Course presentation
+
+This course proposes a critical approach to the technological, social and cultural phenomenon of big data, together with a practical introduction to data mining and data analysis with R.
+
+Course contents aim to enable students to:
+
+-   interrogate big data as a technological, social and cultural phenomenon, and recognize key notions in corpus-assisted discourse analysis;
+
+-   introduce to the working methodology of data analysis and the basics of text mining techniques in R language
+
+# (1) Introduction to R & RStudio
+
+xxx
+
+# (2) Data analysis with R
+
+xxx
+
+# (3) Introduction to NLP
+
+xxx
+
+# (4) Topic modeling
+
+xxx
+
+# (5) Sentiment / lexicon analysis
+
+xxx
+
+# (6) Corpus building
+
+xxx
