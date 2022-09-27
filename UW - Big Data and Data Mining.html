@@ -122,18 +122,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="quarto" class="level2">
-<h2 class="anchored" data-anchor-id="quarto">Quarto</h2>
-<p>Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <a href="https://quarto.org" class="uri">https://quarto.org</a>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
+<section id="course-presentation-and-materials" class="level1">
+<h1>Course presentation and materials</h1>
+<p>This course proposes a critical approach to the technological, social and cultural phenomenon of big data, together with a practical introduction to data mining and data analysis with R.</p>
+<p>Course contents aim to enable students to:</p>
+<ul>
+<li><p>interrogate big data as a technological, social and cultural phenomenon, and recognize key notions in corpus-assisted discourse analysis;</p></li>
+<li><p>introduce to the working methodology of data analysis and the basics of text mining techniques in R language</p></li>
+</ul>
+<section id="about-this-document" class="level3">
+<h3 class="anchored" data-anchor-id="about-this-document">About this document</h3>
+<p>This document is a brief companion to the practical part of the course. It is mainly based on the following resources:</p>
+<ul>
+<li><p>Wickham, H., &amp; Grolemund, G. (2016). R for Data Science. O'Reilly Media. <a href="http://r4ds.had.co.nz/" class="uri">http://r4ds.had.co.nz/</a></p></li>
+<li><p>Silge, J., &amp; Robinson, D. (2017). Text Mining with R. A Tidy Approach. O'Reilly. <a href="https://www.tidytextmining.com/" class="uri">https://www.tidytextmining.com/</a></p></li>
+</ul>
 </section>
-<section id="posibles-contenidos" class="level1">
-<h1>Posibles contenidos</h1>
+<section id="other-materials" class="level2">
+<h2 class="anchored" data-anchor-id="other-materials">Other materials</h2>
 <p>It would be good to mention the using of legal knowledge bases from the big data perspective. They are available mostly in national languages but the EU Eurolex and Curia are available in all official EU languages.&nbsp;</p>
 <p><a href="https://eur-lex.europa.eu/homepage.html?locale=pl" class="uri">https://eur-lex.europa.eu/homepage.html?locale=pl</a></p>
 <p><a href="https://curia.europa.eu/jcms/jcms/Jo1_6308/" class="uri">https://curia.europa.eu/jcms/jcms/Jo1_6308/</a></p>
@@ -145,38 +151,348 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><a href="https://unimelb.libguides.com/c.php?g=929605&amp;p=6716619" class="uri">https://unimelb.libguides.com/c.php?g=929605&amp;p=6716619</a></p>
 <p><a href="https://www.icj-cij.org/en/cases" class="uri">https://www.icj-cij.org/en/cases</a></p>
 <p><a href="https://www.icc-cpi.int/cases" class="uri">https://www.icc-cpi.int/cases</a></p>
+<p>https://hudoc.echr.coe.int/eng#{%22documentcollectionid2%22:[%22GRANDCHAMBER%22,%22CHAMBER%22]}</p>
+<p>abstracts de articulo de law</p>
 </section>
-<section id="course-presentation" class="level1">
-<h1>Course presentation</h1>
-<p>This course proposes a critical approach to the technological, social and cultural phenomenon of big data, together with a practical introduction to data mining and data analysis with R.</p>
-<p>Course contents aim to enable students to:</p>
-<ul>
-<li><p>interrogate big data as a technological, social and cultural phenomenon, and recognize key notions in corpus-assisted discourse analysis;</p></li>
-<li><p>introduce to the working methodology of data analysis and the basics of text mining techniques in R language</p></li>
-</ul>
 </section>
 <section id="introduction-to-r-rstudio" class="level1">
 <h1>(1) Introduction to R &amp; RStudio</h1>
-<p>xxx</p>
+<p>We’ll use the <strong>R</strong> statistical/programming language, <strong>RStudio</strong> as development environment (you can also use Visual Studio Code), and some <strong>packages</strong> that will pre-install some handful functions for us.</p>
+<p>To download and install R and RStudio, follow these instructions: <a href="https://r4ds.had.co.nz/introduction.html#prerequisites" class="uri">https://r4ds.had.co.nz/introduction.html#prerequisites</a></p>
 </section>
 <section id="data-analysis-with-r" class="level1">
 <h1>(2) Data analysis with R</h1>
-<p>xxx</p>
+<p>The goal of this lesson is to introduce the <strong>data analysis workflow</strong>. In particular, we will learn to:</p>
+<ol type="1">
+<li><p>load data and resources;</p></li>
+<li><p>explore and become familiar with the data and its structure;</p></li>
+<li><p>transform the data to clean it and have the optimal structure for our analyses.</p></li>
+</ol>
+<p>You can check more on these topics here:</p>
+<p><a href="https://r4ds.had.co.nz/workflow-basics.html" class="uri">https://r4ds.had.co.nz/workflow-basics.html</a></p>
+<p><a href="https://r4ds.had.co.nz/transform.html" class="uri">https://r4ds.had.co.nz/transform.html</a></p>
+<p>We will work with a dataset of free associations to the word “Big data”. This is a dataset built from a brief survey with the following instructions:</p>
+<blockquote class="blockquote">
+<p><em>Please tell us what words or phrases come to mind when you think of “big data”. We also ask you to please tell us if these ideas that you have just introduced correspond to something that you value positively (something you like) or negatively (something you dislike)</em></p>
+</blockquote>
+<p>In addition, we have recorded the order in which each word was entered by the participant (a value usually between 1 to 5, although participants could enter more words).</p>
+<p>A (simpler) form of this survey can be found here: <a href="https://forms.gle/ysyRxvsDHA9r47NH8" class="uri">https://forms.gle/ysyRxvsDHA9r47NH8</a></p>
+<p>With this dataset, and through the indicated tasks, we are going to try to answer the following question: <strong>what is the common sense about big data?</strong></p>
+<p>The way in which we will analyze the data loosely follows the steps of the “prototypical analysis” from the Social representations theory by S. Moscovici and J. C. Abric.</p>
+<section id="load-data-and-resources" class="level3">
+<h3 class="anchored" data-anchor-id="load-data-and-resources">Load data and resources</h3>
+<p>The first thing we will do is load some <strong>packages</strong> that will provide us with a set of functions that we will use throughout the exercise. Remember that a function is a sequence of commands that are applied to an object that is passed to the function, referencing it between its parentheses. For example, we will use the <code>library()</code> function and library names to enable the <code>readr</code> functions to import data, and the <code>tidyverse</code> set of libraries to manipulate and display.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"readr"</span>) </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr) </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+✔ ggplot2 3.3.6      ✔ dplyr   1.0.10
+✔ tibble  3.1.8      ✔ stringr 1.4.1 
+✔ tidyr   1.2.1      ✔ forcats 0.5.2 
+✔ purrr   0.3.4      
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+</div>
+<p>We will then import the data with the <code>read_csv()</code> function from the <code>readr</code> package. In RStudio you can list a package’s functions by typing their name followed by <code>::</code>.</p>
+<p>We are interested in keeping this data as an object in memory, since we will be working with it in what follows. To do this, we use an assignment operator <code>&lt;-</code> preceded by the name that we will give to the object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>word_associations <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"https://raw.githubusercontent.com/gastonbecerra/curso-intro-r/main/data/asociaciones.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 1707 Columns: 4
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (2): id, palabra
+dbl (2): orden, valoracion
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
 </section>
-<section id="introduction-to-nlp" class="level1">
-<h1>(3) Introduction to NLP</h1>
-<p>xxx</p>
+<section id="explore-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="explore-the-data">Explore the data</h3>
+<p>The goal of <strong>data exploration</strong> is to familiarize ourselves with the structure of the data, and transform it in a way that allow us to carry out our analyses. Usually, this is where the <strong>cleaning steps</strong> are decided.</p>
+<p>The first thing we are going to do check the size and structure of our dataset with <code>glimpse()</code>, and the first records with <code>head()</code>, and the basic stats with <code>summary()</code>.</p>
+<p>This will allow us to know:</p>
+<ul>
+<li><p>the number of records and columns;</p></li>
+<li><p>the names of the columns and their data type;</p></li>
+<li><p>the content of the first records;</p></li>
+<li><p>the range of the numeric fields</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(word_associations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,707
+Columns: 4
+$ id         &lt;chr&gt; "-M0-9OQkabuGoSmceB5E", "-M0-9OQkabuGoSmceB5E", "-M0-9OQkab…
+$ palabra    &lt;chr&gt; "información", "análisis", "investigación", "comercial", "f…
+$ orden      &lt;dbl&gt; 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5,…
+$ valoracion &lt;dbl&gt; 5, 5, 5, 4, -5, 5, 5, 5, 0, -3, 2, 4, 4, 3, 2, 5, 4, 0, 4, …</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(word_associations, <span class="at">n =</span> <span class="dv">10</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+   id                   palabra       orden valoracion
+   &lt;chr&gt;                &lt;chr&gt;         &lt;dbl&gt;      &lt;dbl&gt;
+ 1 -M0-9OQkabuGoSmceB5E información       1          5
+ 2 -M0-9OQkabuGoSmceB5E análisis          2          5
+ 3 -M0-9OQkabuGoSmceB5E investigación     3          5
+ 4 -M0-9OQkabuGoSmceB5E comercial         4          4
+ 5 -M0-9OQkabuGoSmceB5E filtración        5         -5
+ 6 -M0U7_pJAU9Ehga0LIWq información       1          5
+ 7 -M0U7_pJAU9Ehga0LIWq tecnología        2          5
+ 8 -M0U7_pJAU9Ehga0LIWq sistemas          3          5
+ 9 -M0U7_pJAU9Ehga0LIWq computadora       4          0
+10 -M0U7_pJAU9Ehga0LIWq freaks            5         -3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(word_associations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      id              palabra              orden         valoracion    
+ Length:1707        Length:1707        Min.   : 1.00   Min.   :-5.000  
+ Class :character   Class :character   1st Qu.: 2.00   1st Qu.:-1.000  
+ Mode  :character   Mode  :character   Median : 3.00   Median : 1.000  
+                                       Mean   : 3.06   Mean   : 1.053  
+                                       3rd Qu.: 4.00   3rd Qu.: 5.000  
+                                       Max.   :14.00   Max.   : 5.000  </code></pre>
+</div>
+</div>
+<p>You can also explore the entire dataset using <code>view()</code>. Although not needed for this exercise, in larger datasets you could use some packagess to help you on the exploratory part. I recommend to take a look at <code>skimr</code>.</p>
+<p>Now, let’s check our dataset structure with a <code>glimpse</code>. Our table has the words that the participants responded to in the <code>palabra</code> column, the order in which those words were entered by the participant in <code>orden</code>, and a valuation of that idea in <code>valoracion</code>. The <code>id</code> column allow us to bind the records together vertically because our dataset has severalrecords (usually 5) per participant: we have 1 record per word associated to big data. This is called a <strong>longer</strong> (rather than <strong>wider</strong>) dataset, and the action to transform this structure is called <strong>pivoting</strong>. More on this here: <a href="https://r4ds.had.co.nz/tidy-data.html#pivoting" class="uri">https://r4ds.had.co.nz/tidy-data.html#pivoting</a></p>
+</section>
+<section id="transform-visualize-and-clean" class="level3">
+<h3 class="anchored" data-anchor-id="transform-visualize-and-clean">Transform, visualize and clean</h3>
+<p>Now let’s see how we can transform the data to get answers to the following questions:</p>
+<ol type="1">
+<li><p>What are the most frequent words?</p></li>
+<li><p>What are the words with the most extreme evaluations?</p></li>
+<li><p>What are the words that were evoked faster?</p></li>
+</ol>
+<p>To answer this we are going to use <strong>manipulation verbs</strong> (from <code>dplyr</code>, a library included in <code>tidyverse</code>) on our table. Some of these verbs are:</p>
+<ul>
+<li><p><code>filter()</code> to keep only some records by setting a condition;</p></li>
+<li><p><code>mutate()</code> to add a column/variable with the result of some operation on other columns;</p></li>
+<li><p><code>group_by()</code> and <code>summarise()</code> to perform some operation on the data of different records, *reducing* them by only one by groups;</p></li>
+<li><p><code>count()</code> which returns the number of records in a group; <code>n()</code> does the same when within a group operation;</p></li>
+<li><p><code>arrange()</code> sorts the data ascending or descending;</p></li>
+</ul>
+<p>Then, to chain these actions we are going to use an operator called <strong>pipe</strong> <code>%&gt;%</code> that takes the object on the left and makes it go through the function on its right, returning the result. This makes it easier to think and write code to manipulate an object, since it resembles how we naturally handle objects (we first think of the object, then what we want to do with it).</p>
+<p>Now, we have all the elements to answer our questions. It only remains to design a path of operations to make the response visible:</p>
+<ul>
+<li><p>(Step1) We are going to take our table and…</p></li>
+<li><p>(Step2) …we group records that share the associated word (<code>palabra</code>), and for each one we will:</p></li>
+<li><p>(Step 3) count the number of records (giving us the frequency);</p></li>
+<li><p>(Step4) and calculate the mean of their valuations;</p></li>
+<li><p>(Step5) as well as the mean of the order in which it was evoked;</p></li>
+<li><p>(Step0) … the result of this operation we are going to store in a new table, which we will then operate to answer our questions.</p></li>
+</ul>
+<p>For these operations we are going to use the commands just seen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>word_associations_frequency <span class="ot">&lt;-</span> word_associations <span class="sc">%&gt;%</span> <span class="co"># step 0 and 1</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(palabra) <span class="sc">%&gt;%</span> <span class="co"># (step 2)</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>( </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">freq =</span> <span class="fu">n</span>(), <span class="co"># (step 3)</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_score =</span> <span class="fu">mean</span>(valoracion), <span class="co"># (step 4)</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_order_of_evocation =</span> <span class="fu">mean</span>(orden) <span class="co">#(step 5)</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(word_associations_frequency) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 867
+Columns: 4
+$ palabra                 &lt;chr&gt; ".", "...", "0-1-2", "1984", "aa", "abiertos",…
+$ freq                    &lt;int&gt; 3, 2, 1, 1, 1, 1, 1, 1, 1, 4, 5, 1, 1, 1, 1, 1…
+$ mean_score              &lt;dbl&gt; 0.00, 0.00, 0.00, -5.00, 0.00, 3.00, 3.00, 5.0…
+$ mean_order_of_evocation &lt;dbl&gt; 4.0, 4.5, 5.0, 2.0, 5.0, 2.0, 1.0, 2.0, 5.0, 2…</code></pre>
+</div>
+</div>
+<p>If we just order/arrange this table we are already in a position to indicate which are the most/least frequent words.</p>
+<p>For this we are going to use <code>slice_max()</code>, which sorts the data and slices it at some position.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>word_associations_frequency <span class="sc">%&gt;%</span>  </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> freq, <span class="at">n =</span> <span class="dv">10</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+   palabra       freq mean_score mean_order_of_evocation
+   &lt;chr&gt;        &lt;int&gt;      &lt;dbl&gt;                   &lt;dbl&gt;
+ 1 información    102       2.58                    2.08
+ 2 datos           81       2.15                    1.96
+ 3 control         35      -2.31                    2.57
+ 4 internet        34       2.94                    2.91
+ 5 tecnología      29       2.45                    2.97
+ 6 informacion     28       2.29                    2.54
+ 7 grande          20       2.7                     2   
+ 8 análisis        19       3.11                    2.89
+ 9 manipulación    18      -3.44                    2.5 
+10 conocimiento    16       4.44                    2.75</code></pre>
+</div>
+</div>
+<p>The most frequently mentioned word was “information”, along with a set of other words that we can say refer to the handling of data mediated by technology, with various products, such as the analysis of information and the generation of knowledge, or the manipulation and control (the only words that have a negative evaluation).</p>
+<p>To know the most/least valued words, we must generate other cuts:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>word_associations_frequency <span class="sc">%&gt;%</span>  </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> mean_score, <span class="at">n=</span><span class="dv">10</span>) <span class="co"># 10 most likeable words</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 176 × 4
+   palabra                             freq mean_score mean_order_of_evocation
+   &lt;chr&gt;                              &lt;int&gt;      &lt;dbl&gt;                   &lt;dbl&gt;
+ 1 abundante                              1          5                       2
+ 2 accionar                               1          5                       3
+ 3 actualizaciones                        1          5                       3
+ 4 algo superior                          1          5                       3
+ 5 almacenamiento de datos                2          5                       2
+ 6 amigos                                 1          5                       1
+ 7 amor                                   1          5                       4
+ 8 amplitud de usos                       1          5                       5
+ 9 análisis datos                         1          5                       2
+10 análisis de grandes masas de datos     1          5                       1
+# … with 166 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>word_associations_frequency <span class="sc">%&gt;%</span>  </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_min</span>(<span class="at">order_by =</span> mean_score, <span class="at">n=</span><span class="dv">10</span>) <span class="co"># 10 least likeable words</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 108 × 4
+   palabra                freq mean_score mean_order_of_evocation
+   &lt;chr&gt;                 &lt;int&gt;      &lt;dbl&gt;                   &lt;dbl&gt;
+ 1 1984                      1         -5                       2
+ 2 acción                    1         -5                       4
+ 3 acoso mediático           1         -5                       2
+ 4 altgorismo                1         -5                       4
+ 5 atraso                    1         -5                       4
+ 6 ausencia de intimidad     1         -5                       4
+ 7 avismo                    1         -5                       4
+ 8 buenas noticias           1         -5                       3
+ 9 camdbridge analitycs      1         -5                       2
+10 campaña politica          1         -5                       2
+# … with 98 more rows</code></pre>
+</div>
+</div>
+<p>Beyond the fact that certain themes could be inferred in the words (especially the negative ones), we must ask ourselves if it makes sense to work with idiosyncratic ideas and expressions, introduced by a single participant. Ultimately, the question that guides all our exploration is about the <em>common</em> senses. So, let’s run our analysis again using a <code>filter</code>. Repeating tasks is a scenario that we will have to get used to: the transformation-visualization-cleaning process is iterative.</p>
+<p>Also, let’s create our first chart! For this we are using <code>ggplot()</code>, a package and function that follow the <a href="http://vita.had.co.nz/papers/layered-grammar.pdf">grammar of graphics</a>, which states that charts are composed by (at least) 3 elements:</p>
+<ul>
+<li><p>data …</p></li>
+<li><p>… that we somehow map to visual properties of the chart or “aesthetics” (such as a certain column/variable for a chart axis),</p></li>
+<li><p>and a representation system or “geometry” (points, bars, areas, etc.)</p></li>
+</ul>
+<p>More on <code>ggplot</code> here: <a href="https://r4ds.had.co.nz/data-visualisation.html" class="uri">https://r4ds.had.co.nz/data-visualisation.html</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>word_associations_frequency <span class="sc">%&gt;%</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(freq <span class="sc">&gt;</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="co"># let's filter non-shared words</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_min</span>(<span class="at">order_by =</span> mean_score, <span class="at">n=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="co"># 10 least likeable words</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>( </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> ., <span class="co"># since the data was passed through the pipe</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>( </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> palabra, <span class="co"># y axis will have the evoked word</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> mean_score, <span class="co"># x axis will have their score</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="UW---Big-Data-and-Data-Mining_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>word_associations_frequency <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(freq <span class="sc">&gt;</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="co"># let's filter non-shared words</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_max</span>(<span class="at">order_by =</span> mean_score, <span class="at">n=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="co"># 10 most likeable words</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>( </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> ., <span class="co"># since the data was passed through the pipe</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>( </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> palabra, <span class="co"># y axis will have the evoked word</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> mean_score, <span class="co"># x axis will have their score</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="UW---Big-Data-and-Data-Mining_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Let’s repeat these analysis, now querying the words that were evoked the fastest, meaning the ones with the lower <code>mean_order_of_evocation</code> (OfE)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>word_associations_frequency <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(freq <span class="sc">&gt;</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="co"># let's filter non-shared words</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_min</span>(<span class="at">order_by =</span> mean_order_of_evocation, <span class="at">n=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="co"># 10 least likeable words</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>( </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> ., <span class="co"># since the data was passed through the pipe</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>( </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> palabra, <span class="co"># y axis will have the evoked word</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> mean_order_of_evocation, <span class="co"># x axis will have their mean OfE</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="UW---Big-Data-and-Data-Mining_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>These are all ideas that resemble <em>volume, data</em> and <em>information</em>.</p>
+<p>Final step! Let’s bind all these analysis together to chart the evocations of “big data” in a way that allow us to visualize its “representational field”. Specifically, we want to:</p>
+<ul>
+<li><p>draw points at the crossing of frequency (X) and order of evocation (Y) (for X we will apply logarithmic transformation, so we can see better the points);</p></li>
+<li><p>include the words in the graph, so that we can read them;</p></li>
+<li><p>show the word/idea valuation with fill colors, to quickly identify positive and negative senses (for this we are setting a green/red color palette).</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>word_associations_frequency <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(freq <span class="sc">&gt;</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> . , </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> freq,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> mean_order_of_evocation,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">label=</span>palabra)) <span class="sc">+</span> </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>( <span class="at">trans=</span><span class="st">'log'</span> ) <span class="sc">+</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_gradient</span>(<span class="at">low =</span> <span class="st">"red"</span>, <span class="at">high =</span> <span class="st">"green"</span>, <span class="at">na.value =</span> <span class="cn">NA</span>) <span class="sc">+</span> </span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>( <span class="fu">aes</span>(<span class="at">size=</span><span class="dv">7</span> , <span class="at">colour=</span> mean_score), </span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">check_overlap =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> </span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Order of evocation"</span>, <span class="at">x =</span> <span class="st">"Frequency (log)"</span>) <span class="sc">+</span> </span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="UW---Big-Data-and-Data-Mining_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="introduction-to-nlp-and-sentiment-lexicon-analysis" class="level1">
+<h1>(3) Introduction to NLP and sentiment (lexicon) analysis</h1>
+<p>The goal of these lessons is to introduce ourselves to natural language processing (NLP), and to a particular task in that field: sentiment or polarity analysis.</p>
+<p>Specifically, we will learn to:</p>
+<ol type="1">
+<li><p>pre-process text for further analysis;</p></li>
+<li><p>cross tables (in our case, sentences and dictionaries);</p></li>
+<li><p>perform sentiment analysis, including preparing the data for the use of specific libraries.</p></li>
+</ol>
+<p>You can check more on these tasks and topics here:</p>
+<ul>
+<li><p><a href="https://www.tidytextmining.com/tidytext.html" class="uri">https://www.tidytextmining.com/tidytext.html</a></p></li>
+<li><p><a href="https://www.tidytextmining.com/sentiment.html" class="uri">https://www.tidytextmining.com/sentiment.html</a></p></li>
+<li><p><a href="https://r4ds.had.co.nz/relational-data.html#understanding-joins" class="uri">https://r4ds.had.co.nz/relational-data.html#understanding-joins</a></p></li>
+</ul>
+<p>We will work with a corpus of sentences, extracted from Argentine news that include the word “big data.”</p>
+<p>The goal of our analysis will be to determine if big data is valued as a positive or negative phenomenon, according to the words in its co-text. Let’s keep in mind that, as Paganoni (2019) suggests,</p>
+<blockquote class="blockquote">
+<p>Big data appears to be framed between two poles—data and information as opposed to rights and privacy—whose gap has of late been emphasized by a number of data scandals affecting business, health and politics, and culminating in the major unforeseen event of Cambridge Analytica and Facebook.</p>
+</blockquote>
+<p>Throughout this tutorial we will work with several libraries, which we can install with the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"readr"</span>, <span class="st">"tidyverse"</span>, <span class="st">"tidytext"</span>)) </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"udpipe"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="topic-modeling" class="level1">
 <h1>(4) Topic modeling</h1>
 <p>xxx</p>
-</section>
-<section id="sentiment-lexicon-analysis" class="level1">
-<h1>(5) Sentiment / lexicon analysis</h1>
-<p>xxx</p>
+<ul>
+<li><p>Grimmer, J., &amp; Stewart, B. M. (2013). Text as data: The promise and pitfalls of automatic content analysis methods for political texts. Political Analysis, 21(3), 267–297. <a href="https://doi.org/10.1093/pan/mps028" class="uri">https://doi.org/10.1093/pan/mps028</a></p></li>
+<li><p>Jacobi, C., van Atteveldt, W., &amp; Welbers, K. (2016). Quantitative analysis of large amounts of journalistic texts using topic modeling. Digital Journalism, 4(1), 89–106. <a href="https://doi.org/10.1080/21670811.2015.1093271" class="uri">https://doi.org/10.1080/21670811.2015.1093271</a></p></li>
+</ul>
 </section>
 <section id="corpus-building" class="level1">
-<h1>(6) Corpus building</h1>
+<h1>(5) Corpus building</h1>
 <p>xxx</p>
 </section>
 

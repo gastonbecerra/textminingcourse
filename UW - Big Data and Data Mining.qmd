@@ -2,15 +2,25 @@
 title: "UW - Big Data and Data Mining / Data analysis practice"
 ---
 
-## Quarto
+# Course presentation and materials
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+This course proposes a critical approach to the technological, social and cultural phenomenon of big data, together with a practical introduction to data mining and data analysis with R.
 
-```{r}
-1 + 1
-```
+Course contents aim to enable students to:
 
-# Posibles contenidos
+-   interrogate big data as a technological, social and cultural phenomenon, and recognize key notions in corpus-assisted discourse analysis;
+
+-   introduce to the working methodology of data analysis and the basics of text mining techniques in R language
+
+### About this document
+
+This document is a brief companion to the practical part of the course. It is mainly based on the following resources:
+
+-   Wickham, H., & Grolemund, G. (2016). R for Data Science. O'Reilly Media. <http://r4ds.had.co.nz/>
+
+-   Silge, J., & Robinson, D. (2017). Text Mining with R. A Tidy Approach. O'Reilly. <https://www.tidytextmining.com/>
+
+## Other materials
 
 It would be good to mention the using of legal knowledge bases from the big data perspective. They are available mostly in national languages but the EU Eurolex and Curia are available in all official EU languages. 
 
@@ -34,36 +44,560 @@ It would be good to mention the using of legal knowledge bases from the big data
 
 <https://www.icc-cpi.int/cases>
 
-# Course presentation
+https://hudoc.echr.coe.int/eng#{%22documentcollectionid2%22:\[%22GRANDCHAMBER%22,%22CHAMBER%22\]}
 
-This course proposes a critical approach to the technological, social and cultural phenomenon of big data, together with a practical introduction to data mining and data analysis with R.
-
-Course contents aim to enable students to:
-
--   interrogate big data as a technological, social and cultural phenomenon, and recognize key notions in corpus-assisted discourse analysis;
-
--   introduce to the working methodology of data analysis and the basics of text mining techniques in R language
+abstracts de articulo de law
 
 # (1) Introduction to R & RStudio
 
-xxx
+We'll use the **R** statistical/programming language, **RStudio** as development environment (you can also use Visual Studio Code), and some **packages** that will pre-install some handful functions for us.
+
+To download and install R and RStudio, follow these instructions: <https://r4ds.had.co.nz/introduction.html#prerequisites>
 
 # (2) Data analysis with R
 
-xxx
+The goal of this lesson is to introduce the **data analysis workflow**. In particular, we will learn to:
 
-# (3) Introduction to NLP
+1.  load data and resources;
 
-xxx
+2.  explore and become familiar with the data and its structure;
+
+3.  transform the data to clean it and have the optimal structure for our analyses.
+
+You can check more on these topics here:
+
+<https://r4ds.had.co.nz/workflow-basics.html>
+
+<https://r4ds.had.co.nz/transform.html>
+
+We will work with a dataset of free associations to the word "Big data". This is a dataset built from a brief survey with the following instructions:
+
+> *Please tell us what words or phrases come to mind when you think of "big data". We also ask you to please tell us if these ideas that you have just introduced correspond to something that you value positively (something you like) or negatively (something you dislike)*
+
+In addition, we have recorded the order in which each word was entered by the participant (a value usually between 1 to 5, although participants could enter more words).
+
+A (simpler) form of this survey can be found here: <https://forms.gle/ysyRxvsDHA9r47NH8>
+
+With this dataset, and through the indicated tasks, we are going to try to answer the following question: **what is the common sense about big data?**
+
+The way in which we will analyze the data loosely follows the steps of the "prototypical analysis" from the Social representations theory by S. Moscovici and J. C. Abric.
+
+### Load data and resources
+
+The first thing we will do is load some **packages** that will provide us with a set of functions that we will use throughout the exercise. Remember that a function is a sequence of commands that are applied to an object that is passed to the function, referencing it between its parentheses. For example, we will use the `library()` function and library names to enable the `readr` functions to import data, and the `tidyverse` set of libraries to manipulate and display.
+
+```{r}
+#| eval: false
+
+install.packages("readr") 
+install.packages("tidyverse") 
+
+```
+
+```{r}
+
+library(readr) 
+library(tidyverse) 
+
+```
+
+We will then import the data with the `read_csv()` function from the `readr` package. In RStudio you can list a package's functions by typing their name followed by `::`.
+
+We are interested in keeping this data as an object in memory, since we will be working with it in what follows. To do this, we use an assignment operator `<-` preceded by the name that we will give to the object.
+
+```{r}
+
+word_associations <- readr::read_csv(file = "https://raw.githubusercontent.com/gastonbecerra/curso-intro-r/main/data/asociaciones.csv")
+
+```
+
+### Explore the data
+
+The goal of **data exploration** is to familiarize ourselves with the structure of the data, and transform it in a way that allow us to carry out our analyses. Usually, this is where the **cleaning steps** are decided.
+
+The first thing we are going to do check the size and structure of our dataset with `glimpse()`, and the first records with `head()`, and the basic stats with `summary()`.
+
+This will allow us to know:
+
+-   the number of records and columns;
+
+-   the names of the columns and their data type;
+
+-   the content of the first records;
+
+-   the range of the numeric fields
+
+```{r}
+
+glimpse(word_associations)
+head(word_associations, n = 10) 
+summary(word_associations)
+
+```
+
+You can also explore the entire dataset using `view()`. Although not needed for this exercise, in larger datasets you could use some packagess to help you on the exploratory part. I recommend to take a look at `skimr`.
+
+Now, let's check our dataset structure with a `glimpse`. Our table has the words that the participants responded to in the `palabra` column, the order in which those words were entered by the participant in `orden`, and a valuation of that idea in `valoracion`. The `id` column allow us to bind the records together vertically because our dataset has severalrecords (usually 5) per participant: we have 1 record per word associated to big data. This is called a **longer** (rather than **wider**) dataset, and the action to transform this structure is called **pivoting**. More on this here: <https://r4ds.had.co.nz/tidy-data.html#pivoting>
+
+### Transform, visualize and clean
+
+Now let's see how we can transform the data to get answers to the following questions:
+
+1.  What are the most frequent words?
+
+2.  What are the words with the most extreme evaluations?
+
+3.  What are the words that were evoked faster?
+
+To answer this we are going to use **manipulation verbs** (from `dplyr`, a library included in `tidyverse`) on our table. Some of these verbs are:
+
+-   `filter()` to keep only some records by setting a condition;
+
+-   `mutate()` to add a column/variable with the result of some operation on other columns;
+
+-   `group_by()` and `summarise()` to perform some operation on the data of different records, \*reducing\* them by only one by groups;
+
+-   `count()` which returns the number of records in a group; `n()` does the same when within a group operation;
+
+-   `arrange()` sorts the data ascending or descending;
+
+Then, to chain these actions we are going to use an operator called **pipe** `%>%` that takes the object on the left and makes it go through the function on its right, returning the result. This makes it easier to think and write code to manipulate an object, since it resembles how we naturally handle objects (we first think of the object, then what we want to do with it).
+
+Now, we have all the elements to answer our questions. It only remains to design a path of operations to make the response visible:
+
+-   (Step1) We are going to take our table and...
+
+-   (Step2) ...we group records that share the associated word (`palabra`), and for each one we will:
+
+-   (Step 3) count the number of records (giving us the frequency);
+
+-   (Step4) and calculate the mean of their valuations;
+
+-   (Step5) as well as the mean of the order in which it was evoked;
+
+-   (Step0) ... the result of this operation we are going to store in a new table, which we will then operate to answer our questions.
+
+For these operations we are going to use the commands just seen:
+
+```{r}
+
+word_associations_frequency <- word_associations %>% # step 0 and 1
+  group_by(palabra) %>% # (step 2)
+  summarize( 
+    freq = n(), # (step 3)
+    mean_score = mean(valoracion), # (step 4)
+    mean_order_of_evocation = mean(orden) #(step 5)
+  )
+
+glimpse(word_associations_frequency) 
+```
+
+If we just order/arrange this table we are already in a position to indicate which are the most/least frequent words.
+
+For this we are going to use `slice_max()`, which sorts the data and slices it at some position.
+
+```{r}
+
+word_associations_frequency %>%  
+  slice_max(order_by = freq, n = 10) 
+
+```
+
+The most frequently mentioned word was "information", along with a set of other words that we can say refer to the handling of data mediated by technology, with various products, such as the analysis of information and the generation of knowledge, or the manipulation and control (the only words that have a negative evaluation).
+
+To know the most/least valued words, we must generate other cuts:
+
+```{r}
+
+word_associations_frequency %>%  
+  slice_max(order_by = mean_score, n=10) # 10 most likeable words
+
+word_associations_frequency %>%  
+  slice_min(order_by = mean_score, n=10) # 10 least likeable words
+
+```
+
+Beyond the fact that certain themes could be inferred in the words (especially the negative ones), we must ask ourselves if it makes sense to work with idiosyncratic ideas and expressions, introduced by a single participant. Ultimately, the question that guides all our exploration is about the *common* senses. So, let's run our analysis again using a `filter`. Repeating tasks is a scenario that we will have to get used to: the transformation-visualization-cleaning process is iterative.
+
+Also, let's create our first chart! For this we are using `ggplot()`, a package and function that follow the [grammar of graphics](http://vita.had.co.nz/papers/layered-grammar.pdf), which states that charts are composed by (at least) 3 elements:
+
+-   data ...
+
+-   ... that we somehow map to visual properties of the chart or "aesthetics" (such as a certain column/variable for a chart axis),
+
+-   and a representation system or "geometry" (points, bars, areas, etc.)
+
+More on `ggplot` here: <https://r4ds.had.co.nz/data-visualisation.html>
+
+```{r}
+
+word_associations_frequency %>% 
+    filter(freq > 2) %>% # let's filter non-shared words
+    slice_min(order_by = mean_score, n=10) %>% # 10 least likeable words
+  ggplot( 
+    data = ., # since the data was passed through the pipe
+    aes( 
+      y = palabra, # y axis will have the evoked word
+      x = mean_score, # x axis will have their score
+    )
+  ) + 
+  geom_col()
+
+word_associations_frequency %>% 
+    filter(freq > 2) %>% # let's filter non-shared words
+    slice_max(order_by = mean_score, n=10) %>% # 10 most likeable words
+  ggplot( 
+    data = ., # since the data was passed through the pipe
+    aes( 
+      y = palabra, # y axis will have the evoked word
+      x = mean_score, # x axis will have their score
+    )
+  ) + 
+  geom_col()
+
+```
+
+Let's repeat these analysis, now querying the words that were evoked the fastest, meaning the ones with the lower `mean_order_of_evocation` (OfE)
+
+```{r}
+
+word_associations_frequency %>% 
+    filter(freq > 2) %>% # let's filter non-shared words
+    slice_min(order_by = mean_order_of_evocation, n=10) %>% # 10 least likeable words
+  ggplot( 
+    data = ., # since the data was passed through the pipe
+    aes( 
+      y = palabra, # y axis will have the evoked word
+      x = mean_order_of_evocation, # x axis will have their mean OfE
+    )
+  ) + 
+  geom_col()
+
+```
+
+These are all ideas that resemble *volume, data* and *information*.
+
+Final step! Let's bind all these analysis together to chart the evocations of "big data" in a way that allow us to visualize its "representational field". Specifically, we want to:
+
+-   draw points at the crossing of frequency (X) and order of evocation (Y) (for X we will apply logarithmic transformation, so we can see better the points);
+
+-   include the words in the graph, so that we can read them;
+
+-   show the word/idea valuation with fill colors, to quickly identify positive and negative senses (for this we are setting a green/red color palette).
+
+```{r}
+
+word_associations_frequency %>%
+  filter(freq > 2) %>%
+  ggplot(
+    data = . , 
+    aes(
+      x = freq,
+      y = mean_order_of_evocation,
+      label=palabra)) + 
+  scale_x_continuous( trans='log' ) +
+  scale_colour_gradient(low = "red", high = "green", na.value = NA) + 
+  geom_text( aes(size=7 , colour= mean_score), 
+             show.legend = FALSE, check_overlap = FALSE) + 
+  labs(y="Order of evocation", x = "Frequency (log)") + 
+  theme_minimal()
+
+```
+
+# (3) Introduction to NLP and sentiment (lexicon) analysis
+
+The goal of these lessons is to introduce ourselves to natural language processing (NLP), and to a particular task in that field: sentiment or polarity analysis.
+
+Specifically, we will learn to:
+
+1.  pre-process text for further analysis;
+
+2.  cross tables (in our case, sentences and dictionaries);
+
+3.  perform sentiment analysis, including preparing the data for the use of specific libraries.
+
+You can check more on these tasks and topics here:
+
+-   <https://www.tidytextmining.com/tidytext.html>
+
+-   <https://www.tidytextmining.com/sentiment.html>
+
+-   <https://r4ds.had.co.nz/relational-data.html#understanding-joins>
+
+We will work with a corpus of sentences, extracted from UK newspapers that include the words "big data."
+
+The goal of our analysis will be to determine if big data is valued as a positive or negative phenomenon, according to the words in its co-text (sentences). Let's keep in mind that, as Paganoni (2019) suggests,
+
+> Big data appears to be framed between two poles---data and information as opposed to rights and privacy---whose gap has of late been emphasized by a number of data scandals affecting business, health and politics, and culminating in the major unforeseen event of Cambridge Analytica and Facebook.
+
+Throughout this tutorial we will work with several libraries, which we can install with the following code:
+
+```{r}
+#| eval: false
+
+install.packages(c("readr", "tidyverse", "tidytext")) 
+install.packages(c("textdata")) 
+
+```
+
+Let's load the data and filter sentences including "big data". The table includes a column `key` indicating if our interest keyword is present.
+
+```{r}
+
+library(tidyverse)
+library(readr)
+sentences <- read_rds('./data/paganoni_corpus_UK_News_Health_sentences.rds') 
+sentences_bd <- sentences %>% 
+  filter(key==TRUE) %>%
+  mutate(sentence_id = row_number()) # inserting an ID for each sentence
+
+```
+
+### Sentiment analysis using joins
+
+The goal of pre-processing text is to create a structured dataset that can be computed from an unstructured source, such as natural text. This can be achieved in several ways. In this exercise, we are trying a **dictionary-based approach** that will consist in looking for a *sentiment score* for the words of our sentences within a *lexicon*,and create a general score for our sentences.
+
+In order to do so, we are going to:
+
+-   tokenize sentences, creating a *tibble* of their words;
+
+-   join tables (our sentences and lexicons);
+
+-   summarize a score for our sentences.
+
+First, let's decompose our sentences in word *tokens*. These can be bind back because we are introducing an ID column referencing the sentence (row number) in the original dataset.
+
+```{r}
+
+words_bd <- sentences_bd %>%
+  unnest_tokens(output = word, input = sentence, token = "words") %>%
+  select(-key , -file_name) # we're dropping the key column
+
+```
+
+Second, let's prepare our *lexicon*. We are using generic sentiment lexicons from `tidytext` package. More info on these can be found here: <https://www.tidytextmining.com/sentiment.html#the-sentiments-datasets>
+
+```{r}
+
+library(tidytext)
+library(textdata)
+
+affin <- get_sentiments("afinn") # import the lexicon
+
+glimpse(affin)
+
+```
+
+Now, let's cross tables! In particular, we are interested in seeing if the words that we extracted from our sentences match the words in the lexicons. For this, we will be using `_join` verbs from the `dplyr` package. More info on joins: <https://r4ds.had.co.nz/relational-data.html#understanding-joins>
+
+We will `left_jpin()` our `words_bd` and `affin` (both have the `word` column). We will include the `value` column from the latter into the former (and leave blank if absent). Then, we are summarizing these values by sentence.
+
+```{r}
+
+sentiment_bd <- words_bd %>%
+  left_join( affin, by = "word" ) %>% # matching by word
+  group_by( sentence_id ) %>%
+  summarise(
+    sentence_value = mean(value, na.rm = TRUE),
+    sentence_found_words = paste(word[!is.na(value)], collapse = " ") 
+  ) 
+
+glimpse(sentiment_bd)
+summary(sentiment_bd)
+
+```
+
+Let's explore these results a bit. Let's find sentences with the highest and lowest ratings. In order to better understand what we are evaluating, let's re-include the sentences, prior to our pre-processing.
+
+```{r}
+
+sentiment_bd %>% slice_max(order_by = sentence_value, n = 5) %>%
+  inner_join(sentences_bd, by="sentence_id")
+
+sentiment_bd %>% slice_min(order_by = sentence_value, n = 5) %>%
+  inner_join(sentences_bd, by="sentence_id") 
+
+```
+
+Let's evaluate the results and make decisions: Are they satisfactory to us, considering our objectives and the use that we will give to this data later? Do we want to introduce ad-hoc rules to improve these results? How many cases are lost by introducing rules? An ad-hoc rule seems to be required: perhaps "big" should not have intrinsic value... let's repeat filtering this.
+
+```{r}
+
+sentiment_bd <- words_bd %>%
+  left_join( affin %>% 
+               filter(word != "big"), # filter "big" from affin
+             by = "word" ) %>% # matching by word
+  group_by( sentence_id ) %>%
+  summarise(
+    sentence_value = mean(value, na.rm = TRUE),
+    sentence_found_words = paste(word[!is.na(value)], collapse = " ") 
+  ) 
+
+glimpse(sentiment_bd)
+summary(sentiment_bd)
+
+```
+
+Now that we can intuit the limits and potential of this type of language processing, we are going to carry out these analyzes again, with a much more robust procedure, using functions from libraries or packages.
+
+### Sentiment analysis using packages and functions
+
+In what follows we are going to perform sentiment analysis using packages, particularly with `txt_sentiment` from the `Udpipe` package from [Institute of Formal and Applied Linguistics (ÚFAL)](https://ufal.mff.cuni.cz/about)
+
+The general steps when you want to work with package functions are:
+
+-   consult the documentation;
+
+-   preprocess the data and transform the objects to fit the function requirements;
+
+-   use the function and evaluate the results;
+
+Before using the `txt_sentiment` function we will be doing some pre-processing with a text parser from `Udpipe`. This is a very useful tool for NLP tasks!
+
+The first thing we need to do is install the library. Then, we must download the model of the language that interests us.
+
+```{r}
+#| eval: false
+
+# install.packages("udpipe") # install package
+
+library(udpipe) # load package
+model_en <- udpipe::udpipe_download_model('english') # download language model
+model_en$file_model # reference to downloaded model
+model_en <- udpipe_load_model(file = model_en$file_model) # load language model
+
+```
+
+```{r}
+
+#| eval: true
+#| echo: false
+
+library(udpipe) 
+model_en <- udpipe_load_model(file = "E:/r/UW - Big Data and Data Mining/english-ewt-ud-2.5-191206.udpipe") # load language model
+```
+
+With the model we are ready to start parsing our corpus of sentences, and annotate what type of component each word is.
+
+```{r}
+
+sentences_bd_anotated <- udpipe_annotate( 
+  object = model_en, # language model
+  x = sentences_bd$sentence, # text to parse and annotate
+  doc_id = sentences_bd$sentence_id, # sentence id (result will be 1 row per word)
+  trace = 10
+  ) %>% as.data.frame(.) # convert to data frame
+
+glimpse( sentences_bd_anotated )
+
+```
+
+This annotation has taken care of many typical text pre-processing tasks:
+
+-   *tokenization*: the sentences were split into words (we can use `doc_id` to recreate the sentence);
+
+-   for each word a upos type has been noted;
+
+-   word are converted to *lemmas*
+
+We can use upos to filter words. This step is an alternative to removing stopwords and words that do not directly provide semantic content (for example, prepositions). *Lemmatization* is a procedure that seeks to reduce words to their non-inflected or conjugated form. It is an alternative to *stemmization*, which attempts to heuristically and iteratively reduce the length of words, removing characters, until they are reduced to their root. Thus, the expression "Google analyzes big data to infer the rate of contagion of the H1N1 flu", is lemmatized as "google analyze big data to infer the rate of contagion of the H1N1 flu".
+
+Now, let's create a final object with only (possibly) meaningful words.
+
+```{r}
+
+sentences_bd_anotated_meaningful <- sentences_bd_anotated %>% 
+  filter(upos=="ADJ"| upos=="VERB"| upos=="NOUN" | upos=="ADV") 
+
+glimpse(sentences_bd_anotated_meaningful)
+```
+
+Now, we are ready to do some sentiment analysis with `txt_sentiment`.
+
+First, we are going to consult the documentation of the package to know what functions we can execute. A good entry point is to check out the vignette, usually a kind of quick introduction to the pack. Another option is to go directly to the function's documentation, where we will find a description of the parameters and examples.
+
+```{r}
+#| eval: false
+
+browseVignettes("udpipe") # vignette
+?udpipe::txt_sentiment # function documentation
+
+```
+
+The `txt_sentiment` paramenters are:
+
+-   `x` is the dataframe returned by preprocessing with `udpipe`;
+
+-   `term` is the name of the column (inside `x`) that contains the sentences to parse;
+
+-   `polarity_terms` is a dataframe that contains 2 columns: `terms` and `polarity`, which can be `1` or `-1`. To create this we will use again a *lexicon* from `textdata`
+
+-   `polarity_negators` , `polarity_amplifiers`, `polarity_deamplifiers` are vectors of words that negate, increase or decrease the orientation of words (for example, if we have "good" in the lexicon with a rating of 1, and "very" inside the amplifiers, "very good " could assume a higher rating than the one given by the lexicon, with a factor that is made explicit in amplifier_weight). The window of words in which these words are searched is configured with `n_before` and `n_after`.
+
+Let's prepare our lexicons and other tables.
+
+```{r}
+
+polarity_terms <- affin %>%
+  mutate(polarity = if_else(value > 0, 1, -1)) %>%
+  select(term=word, polarity)
+
+# let set some basic negators, amplifiers and deamplifiers
+
+polarity_negators <- c("not", "never", "nobody")
+polarity_amplifiers <- c("very")
+polarity_deamplifiers <- c("less", "almost")
+
+```
+
+All set! Let's run the function and see the resulting object.
+
+```{r}
+
+sentiment_bd_functions <- udpipe::txt_sentiment(
+  x = sentences_bd_anotated_meaningful,
+  term = "lemma",
+  polarity_terms = polarity_terms,
+  polarity_negators = polarity_negators,
+  polarity_amplifiers = polarity_amplifiers,
+  polarity_deamplifiers = polarity_deamplifiers)
+
+```
+
+In the case of the object returned by `txt_sentiment`, there are 2 objects that we can query:
+
+-   `$data` which has the table resulting from the crossing of the annotated sentences (remember: 1 row x lemma) with the dictionaries and modifiers, giving a final value in `data$sentiment_polarity`;
+
+-   `$overall` which has the table with the values at the sentence level, including the polarity in `$overall$sentiment_polarity`;
+
+Let's look at this last object, to evaluate the results: `txt_sentiment` sums the word scores per sentence, which makes longer sentences expected to show more extreme polarity. For this reason, it may be convenient to normalize this score by the number of words in each sentence:
+
+```{r}
+
+sentiment_bd_functions$overall %>% 
+  mutate(sentiment_polarity2=sentiment_polarity/terms) %>%
+  slice_max(order_by = sentiment_polarity2, n=10) %>%
+  left_join(sentences_bd, by=("doc_id" = "sentence_id")) %>%
+  select(sentiment_polarity2, sentence)
+
+sentiment_bd_functions$overall %>% 
+  mutate(sentiment_polarity2=sentiment_polarity/terms) %>%
+  slice_min(order_by = sentiment_polarity2, n=10) %>%
+  left_join(sentences_bd, by=("doc_id" = "sentence_id")) %>%
+  select(sentiment_polarity2, sentence)
+
+```
+
+Makes sense, right?
 
 # (4) Topic modeling
 
 xxx
 
-# (5) Sentiment / lexicon analysis
+-   Grimmer, J., & Stewart, B. M. (2013). Text as data: The promise and pitfalls of automatic content analysis methods for political texts. Political Analysis, 21(3), 267--297. <https://doi.org/10.1093/pan/mps028>
 
-xxx
+-   Jacobi, C., van Atteveldt, W., & Welbers, K. (2016). Quantitative analysis of large amounts of journalistic texts using topic modeling. Digital Journalism, 4(1), 89--106. <https://doi.org/10.1080/21670811.2015.1093271>
 
-# (6) Corpus building
+# (5) Corpus building
 
 xxx
