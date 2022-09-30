@@ -134,25 +134,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="about-this-document">About this document</h3>
 <p>This document is a brief companion to the practical part of the course. It is mainly based on the following resources:</p>
 <ul>
-<li><p>Wickham, H., &amp; Grolemund, G. (2016). R for Data Science. O'Reilly Media. <a href="http://r4ds.had.co.nz/" class="uri">http://r4ds.had.co.nz/</a></p></li>
-<li><p>Silge, J., &amp; Robinson, D. (2017). Text Mining with R. A Tidy Approach. O'Reilly. <a href="https://www.tidytextmining.com/" class="uri">https://www.tidytextmining.com/</a></p></li>
+<li><p>Wickham, H., &amp; Grolemund, G. (2016). R for Data Science. O’Reilly Media. <a href="http://r4ds.had.co.nz/" class="uri">http://r4ds.had.co.nz/</a></p></li>
+<li><p>Silge, J., &amp; Robinson, D. (2017). Text Mining with R. A Tidy Approach. O’Reilly. <a href="https://www.tidytextmining.com/" class="uri">https://www.tidytextmining.com/</a></p></li>
 </ul>
-</section>
-<section id="other-materials" class="level2">
-<h2 class="anchored" data-anchor-id="other-materials">Other materials</h2>
-<p>It would be good to mention the using of legal knowledge bases from the big data perspective. They are available mostly in national languages but the EU Eurolex and Curia are available in all official EU languages.&nbsp;</p>
-<p><a href="https://eur-lex.europa.eu/homepage.html?locale=pl" class="uri">https://eur-lex.europa.eu/homepage.html?locale=pl</a></p>
-<p><a href="https://curia.europa.eu/jcms/jcms/Jo1_6308/" class="uri">https://curia.europa.eu/jcms/jcms/Jo1_6308/</a></p>
-<p><a href="https://www.echr.coe.int/Pages/home.aspx?p=caselaw/HUDOC&amp;c=" class="uri">https://www.echr.coe.int/Pages/home.aspx?p=caselaw/HUDOC&amp;c=</a></p>
-<p><a href="https://uncitral.un.org/sites/uncitral.un.org/files/media-documents/uncitral/en/facts_about_clout_eng_ebook.pdf" class="uri">https://uncitral.un.org/sites/uncitral.un.org/files/media-documents/uncitral/en/facts_about_clout_eng_ebook.pdf</a></p>
-<p><a href="https://www.ilo.org/inform/online-information-resources/databases/terminology/lang--en/index.htm" class="uri">https://www.ilo.org/inform/online-information-resources/databases/terminology/lang--en/index.htm</a></p>
-<p><a href="https://op.europa.eu/pl/web/eu-vocabularies/det" class="uri">https://op.europa.eu/pl/web/eu-vocabularies/det</a></p>
-<p><a href="https://op.europa.eu/pl/web/eu-vocabularies/dataset/-/resource?uri=http://publications.europa.eu/resource/dataset/eurovoc" class="uri">https://op.europa.eu/pl/web/eu-vocabularies/dataset/-/resource?uri=http://publications.europa.eu/resource/dataset/eurovoc</a></p>
-<p><a href="https://unimelb.libguides.com/c.php?g=929605&amp;p=6716619" class="uri">https://unimelb.libguides.com/c.php?g=929605&amp;p=6716619</a></p>
-<p><a href="https://www.icj-cij.org/en/cases" class="uri">https://www.icj-cij.org/en/cases</a></p>
-<p><a href="https://www.icc-cpi.int/cases" class="uri">https://www.icc-cpi.int/cases</a></p>
-<p>https://hudoc.echr.coe.int/eng#{%22documentcollectionid2%22:[%22GRANDCHAMBER%22,%22CHAMBER%22]}</p>
-<p>abstracts de articulo de law</p>
 </section>
 </section>
 <section id="introduction-to-r-rstudio" class="level1">
@@ -202,6 +186,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>We will then import the data with the <code>read_csv()</code> function from the <code>readr</code> package. In RStudio you can list a package’s functions by typing their name followed by <code>::</code>.</p>
 <p>We are interested in keeping this data as an object in memory, since we will be working with it in what follows. To do this, we use an assignment operator <code>&lt;-</code> preceded by the name that we will give to the object.</p>
+<!--# 2do: aca hay que traducir esto con google y ya -->
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>word_associations <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"https://raw.githubusercontent.com/gastonbecerra/curso-intro-r/main/data/asociaciones.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -472,28 +457,741 @@ $ mean_order_of_evocation &lt;dbl&gt; 4.0, 4.5, 5.0, 2.0, 5.0, 2.0, 1.0, 2.0, 5.
 <li><p><a href="https://www.tidytextmining.com/sentiment.html" class="uri">https://www.tidytextmining.com/sentiment.html</a></p></li>
 <li><p><a href="https://r4ds.had.co.nz/relational-data.html#understanding-joins" class="uri">https://r4ds.had.co.nz/relational-data.html#understanding-joins</a></p></li>
 </ul>
-<p>We will work with a corpus of sentences, extracted from Argentine news that include the word “big data.”</p>
-<p>The goal of our analysis will be to determine if big data is valued as a positive or negative phenomenon, according to the words in its co-text. Let’s keep in mind that, as Paganoni (2019) suggests,</p>
+<p>We will work with a corpus of sentences, extracted from UK newspapers that include the words “big data.”</p>
+<p>The goal of our analysis will be to determine if big data is valued as a positive or negative phenomenon, according to the words in its co-text (sentences). Let’s keep in mind that, as Paganoni (2019) suggests,</p>
 <blockquote class="blockquote">
 <p>Big data appears to be framed between two poles—data and information as opposed to rights and privacy—whose gap has of late been emphasized by a number of data scandals affecting business, health and politics, and culminating in the major unforeseen event of Cambridge Analytica and Facebook.</p>
 </blockquote>
 <p>Throughout this tutorial we will work with several libraries, which we can install with the following code:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"readr"</span>, <span class="st">"tidyverse"</span>, <span class="st">"tidytext"</span>)) </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"udpipe"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"textdata"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Let’s load the data and filter sentences including “big data”. The table includes a column <code>key</code> indicating if our interest keyword is present.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>sentences <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">'./data/paganoni_corpus_UK_News_Health_sentences.rds'</span>) </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>sentences_bd <span class="ot">&lt;-</span> sentences <span class="sc">%&gt;%</span> </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(key<span class="sc">==</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sentence_id =</span> <span class="fu">row_number</span>()) <span class="co"># inserting an ID for each sentence</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="sentiment-analysis-using-joins" class="level3">
+<h3 class="anchored" data-anchor-id="sentiment-analysis-using-joins">Sentiment analysis using joins</h3>
+<p>The goal of pre-processing text is to create a structured dataset that can be computed from an unstructured source, such as natural text. This can be achieved in several ways. In this exercise, we are trying a <strong>dictionary-based approach</strong> that will consist in looking for a <em>sentiment score</em> for the words of our sentences within a <em>lexicon</em>,and create a general score for our sentences.</p>
+<p>In order to do so, we are going to:</p>
+<ul>
+<li><p>tokenize sentences, creating a <em>tibble</em> of their words;</p></li>
+<li><p>join tables (our sentences and lexicons);</p></li>
+<li><p>summarize a score for our sentences.</p></li>
+</ul>
+<p>First, let’s decompose our sentences in word <em>tokens</em>. These can be bind back because we are introducing an ID column referencing the sentence (row number) in the original dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>words_bd <span class="ot">&lt;-</span> sentences_bd <span class="sc">%&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_tokens</span>(<span class="at">output =</span> word, <span class="at">input =</span> sentence, <span class="at">token =</span> <span class="st">"words"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>key , <span class="sc">-</span>file_name) <span class="co"># we're dropping the key column</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Second, let’s prepare our <em>lexicon</em>. We are using generic sentiment lexicons from <code>tidytext</code> package. More info on these can be found here: <a href="https://www.tidytextmining.com/sentiment.html#the-sentiments-datasets" class="uri">https://www.tidytextmining.com/sentiment.html#the-sentiments-datasets</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(textdata)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>affin <span class="ot">&lt;-</span> <span class="fu">get_sentiments</span>(<span class="st">"afinn"</span>) <span class="co"># import the lexicon</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(affin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 2,477
+Columns: 2
+$ word  &lt;chr&gt; "abandon", "abandoned", "abandons", "abducted", "abduction", "ab…
+$ value &lt;dbl&gt; -2, -2, -2, -2, -2, -2, -3, -3, -3, -3, 2, 2, 1, -1, -1, 2, 2, 2…</code></pre>
+</div>
+</div>
+<p>Now, let’s cross tables! In particular, we are interested in seeing if the words that we extracted from our sentences match the words in the lexicons. For this, we will be using <code>_join</code> verbs from the <code>dplyr</code> package. More info on joins: <a href="https://r4ds.had.co.nz/relational-data.html#understanding-joins" class="uri">https://r4ds.had.co.nz/relational-data.html#understanding-joins</a></p>
+<p>We will <code>left_jpin()</code> our <code>words_bd</code> and <code>affin</code> (both have the <code>word</code> column). We will include the <code>value</code> column from the latter into the former (and leave blank if absent). Then, we are summarizing these values by sentence.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>sentiment_bd <span class="ot">&lt;-</span> words_bd <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>( affin, <span class="at">by =</span> <span class="st">"word"</span> ) <span class="sc">%&gt;%</span> <span class="co"># matching by word</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>( sentence_id ) <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sentence_value =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sentence_found_words =</span> <span class="fu">paste</span>(word[<span class="sc">!</span><span class="fu">is.na</span>(value)], <span class="at">collapse =</span> <span class="st">" "</span>) </span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(sentiment_bd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 41
+Columns: 3
+$ sentence_id          &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15…
+$ sentence_value       &lt;dbl&gt; 1.250000, 1.000000, -1.000000, 1.500000, -0.25000…
+$ sentence_found_words &lt;chr&gt; "growing reach big sophisticated", "big big", "ag…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sentiment_bd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  sentence_id sentence_value    sentence_found_words
+ Min.   : 1   Min.   :-1.0000   Length:41           
+ 1st Qu.:11   1st Qu.: 0.7500   Class :character    
+ Median :21   Median : 1.0000   Mode  :character    
+ Mean   :21   Mean   : 0.8045                       
+ 3rd Qu.:31   3rd Qu.: 1.2500                       
+ Max.   :41   Max.   : 2.0000                       </code></pre>
+</div>
+</div>
+<p>Let’s explore these results a bit. Let’s find sentences with the highest and lowest ratings. In order to better understand what we are evaluating, let’s re-include the sentences, prior to our pre-processing.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>sentiment_bd <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(<span class="at">order_by =</span> sentence_value, <span class="at">n =</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(sentences_bd, <span class="at">by=</span><span class="st">"sentence_id"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 7
+  sentence_id sentence_value sentence_found_words   doc_id file_…¹ sente…² key  
+        &lt;int&gt;          &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;   &lt;lgl&gt;
+1          27           2    big wealth             BBDGU… BBDGU1… the gu… TRUE 
+2          16           1.75 big care successful b… BBDFT… BBDFT1… ft.com… TRUE 
+3          13           1.67 dedicated big attract… BBDFT… BBDFT1… accord… TRUE 
+4          39           1.6  big intelligent ensur… BBDTL… BBDTL1… and wi… TRUE 
+5           4           1.5  true big               BBDFT… BBDFT1… if wha… TRUE 
+6           6           1.5  big help               BBDFT… BBDFT1… on the… TRUE 
+7          23           1.5  support big            BBDGU… BBDGU1… but it… TRUE 
+# … with abbreviated variable names ¹​file_name, ²​sentence</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>sentiment_bd <span class="sc">%&gt;%</span> <span class="fu">slice_min</span>(<span class="at">order_by =</span> sentence_value, <span class="at">n =</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(sentences_bd, <span class="at">by=</span><span class="st">"sentence_id"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 7
+  sentence_id sentence_value sentence_found_words   doc_id file_…¹ sente…² key  
+        &lt;int&gt;          &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;   &lt;lgl&gt;
+1           3           -1   aggressive big risk    BBDFT… BBDFT1… "prope… TRUE 
+2           9           -1   big catastrophe        BBDFT… BBDFT1… "\"big… TRUE 
+3          12           -1   big suffering imposin… BBDFT… BBDFT1… "a new… TRUE 
+4          29           -0.5 big risks              BBDIN… BBDIN1… "indep… TRUE 
+5          33           -0.5 big problem            BBDIN… BBDIN1… "big d… TRUE 
+# … with abbreviated variable names ¹​file_name, ²​sentence</code></pre>
+</div>
+</div>
+<p>Let’s evaluate the results and make decisions: Are they satisfactory to us, considering our objectives and the use that we will give to this data later? Do we want to introduce ad-hoc rules to improve these results? How many cases are lost by introducing rules? An ad-hoc rule seems to be required: perhaps “big” should not have intrinsic value… let’s repeat filtering this.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>sentiment_bd <span class="ot">&lt;-</span> words_bd <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>( affin <span class="sc">%&gt;%</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">filter</span>(word <span class="sc">!=</span> <span class="st">"big"</span>), <span class="co"># filter "big" from affin</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">by =</span> <span class="st">"word"</span> ) <span class="sc">%&gt;%</span> <span class="co"># matching by word</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>( sentence_id ) <span class="sc">%&gt;%</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">sentence_value =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">sentence_found_words =</span> <span class="fu">paste</span>(word[<span class="sc">!</span><span class="fu">is.na</span>(value)], <span class="at">collapse =</span> <span class="st">" "</span>) </span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(sentiment_bd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 41
+Columns: 3
+$ sentence_id          &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15…
+$ sentence_value       &lt;dbl&gt; 1.3333333, NaN, -2.0000000, 2.0000000, -0.6666667…
+$ sentence_found_words &lt;chr&gt; "growing reach sophisticated", "", "aggressive ri…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sentiment_bd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  sentence_id sentence_value    sentence_found_words
+ Min.   : 1   Min.   :-3.0000   Length:41           
+ 1st Qu.:11   1st Qu.:-0.8333   Class :character    
+ Median :21   Median : 1.0000   Mode  :character    
+ Mean   :21   Mean   : 0.4414                       
+ 3rd Qu.:31   3rd Qu.: 1.6250                       
+ Max.   :41   Max.   : 3.0000                       
+              NA's   :14                            </code></pre>
+</div>
+</div>
+<p>Now that we can intuit the limits and potential of this type of language processing, we are going to carry out these analyzes again, with a much more robust procedure, using functions from libraries or packages.</p>
+</section>
+<section id="sentiment-analysis-using-packages-and-functions" class="level3">
+<h3 class="anchored" data-anchor-id="sentiment-analysis-using-packages-and-functions">Sentiment analysis using packages and functions</h3>
+<p>In what follows we are going to perform sentiment analysis using packages, particularly with <code>txt_sentiment</code> from the <code>Udpipe</code> package from <a href="https://ufal.mff.cuni.cz/about">Institute of Formal and Applied Linguistics (ÚFAL)</a></p>
+<p>The general steps when you want to work with package functions are:</p>
+<ul>
+<li><p>consult the documentation;</p></li>
+<li><p>preprocess the data and transform the objects to fit the function requirements;</p></li>
+<li><p>use the function and evaluate the results;</p></li>
+</ul>
+<p>Before using the <code>txt_sentiment</code> function we will be doing some pre-processing with a text parser from <code>Udpipe</code>. This is a very useful tool for NLP tasks!</p>
+<p>The first thing we need to do is install the library. Then, we must download the model of the language that interests us.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("udpipe") # install package</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(udpipe) <span class="co"># load package</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>model_en <span class="ot">&lt;-</span> udpipe<span class="sc">::</span><span class="fu">udpipe_download_model</span>(<span class="st">'english'</span>) <span class="co"># download language model</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>model_en<span class="sc">$</span>file_model <span class="co"># reference to downloaded model</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>model_en <span class="ot">&lt;-</span> <span class="fu">udpipe_load_model</span>(<span class="at">file =</span> model_en<span class="sc">$</span>file_model) <span class="co"># load language model</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<!--# 2do: poner recursos online, en drive, al menos -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(udpipe) </span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>model_en <span class="ot">&lt;-</span> <span class="fu">udpipe_load_model</span>(<span class="at">file =</span> <span class="st">"E:/r/UW - Big Data and Data Mining/english-ewt-ud-2.5-191206.udpipe"</span>) <span class="co"># load language model</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>With the model we are ready to start parsing our corpus of sentences, and annotate what type of component each word is.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>sentences_bd_anotated <span class="ot">&lt;-</span> <span class="fu">udpipe_annotate</span>( </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> model_en, <span class="co"># language model</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> sentences_bd<span class="sc">$</span>sentence, <span class="co"># text to parse and annotate</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">doc_id =</span> sentences_bd<span class="sc">$</span>sentence_id, <span class="co"># sentence id (result will be 1 row per word)</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">trace =</span> <span class="dv">10</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>(.) <span class="co"># convert to data frame</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2022-09-30 02:41:04 Annotating text fragment 1/41
+2022-09-30 02:41:04 Annotating text fragment 11/41
+2022-09-30 02:41:05 Annotating text fragment 21/41
+2022-09-30 02:41:05 Annotating text fragment 31/41
+2022-09-30 02:41:05 Annotating text fragment 41/41</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>( sentences_bd_anotated )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,402
+Columns: 14
+$ doc_id        &lt;chr&gt; "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "…
+$ paragraph_id  &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ sentence_id   &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ sentence      &lt;chr&gt; "the fast-growing reach of the internet, big data analys…
+$ token_id      &lt;chr&gt; "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11",…
+$ token         &lt;chr&gt; "the", "fast", "-", "growing", "reach", "of", "the", "in…
+$ lemma         &lt;chr&gt; "the", "fast", "-", "grow", "reach", "of", "the", "inter…
+$ upos          &lt;chr&gt; "DET", "ADJ", "PUNCT", "VERB", "NOUN", "ADP", "DET", "NO…
+$ xpos          &lt;chr&gt; "DT", "JJ", "HYPH", "VBG", "NN", "IN", "DT", "NN", ",", …
+$ feats         &lt;chr&gt; "Definite=Def|PronType=Art", "Degree=Pos", NA, "VerbForm…
+$ head_token_id &lt;chr&gt; "5", "4", "4", "5", "20", "8", "8", "5", "5", "12", "12"…
+$ dep_rel       &lt;chr&gt; "det", "compound", "punct", "amod", "nsubj", "case", "de…
+$ deps          &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ misc          &lt;chr&gt; NA, "SpaceAfter=No", "SpaceAfter=No", NA, NA, NA, NA, "S…</code></pre>
+</div>
+</div>
+<p>This annotation has taken care of many typical text pre-processing tasks:</p>
+<ul>
+<li><p><em>tokenization</em>: the sentences were split into words (we can use <code>doc_id</code> to recreate the sentence);</p></li>
+<li><p>for each word a upos type has been noted;</p></li>
+<li><p>word are converted to <em>lemmas</em></p></li>
+</ul>
+<p>We can use upos to filter words. This step is an alternative to removing stopwords and words that do not directly provide semantic content (for example, prepositions). <em>Lemmatization</em> is a procedure that seeks to reduce words to their non-inflected or conjugated form. It is an alternative to <em>stemmization</em>, which attempts to heuristically and iteratively reduce the length of words, removing characters, until they are reduced to their root. Thus, the expression “Google analyzes big data to infer the rate of contagion of the H1N1 flu”, is lemmatized as “google analyze big data to infer the rate of contagion of the H1N1 flu”.</p>
+<p>Now, let’s create a final object with only (possibly) meaningful words.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>sentences_bd_anotated_meaningful <span class="ot">&lt;-</span> sentences_bd_anotated <span class="sc">%&gt;%</span> </span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(upos<span class="sc">==</span><span class="st">"ADJ"</span><span class="sc">|</span> upos<span class="sc">==</span><span class="st">"VERB"</span><span class="sc">|</span> upos<span class="sc">==</span><span class="st">"NOUN"</span> <span class="sc">|</span> upos<span class="sc">==</span><span class="st">"ADV"</span>) </span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(sentences_bd_anotated_meaningful)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 779
+Columns: 14
+$ doc_id        &lt;chr&gt; "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "…
+$ paragraph_id  &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ sentence_id   &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ sentence      &lt;chr&gt; "the fast-growing reach of the internet, big data analys…
+$ token_id      &lt;chr&gt; "2", "4", "5", "8", "10", "11", "12", "14", "15", "16", …
+$ token         &lt;chr&gt; "fast", "growing", "reach", "internet", "big", "data", "…
+$ lemma         &lt;chr&gt; "fast", "grow", "reach", "internet", "big", "data", "ana…
+$ upos          &lt;chr&gt; "ADJ", "VERB", "NOUN", "NOUN", "ADJ", "NOUN", "NOUN", "A…
+$ xpos          &lt;chr&gt; "JJ", "VBG", "NN", "NN", "JJ", "NN", "NN", "RB", "JJR", …
+$ feats         &lt;chr&gt; "Degree=Pos", "VerbForm=Ger", "Number=Sing", "Number=Sin…
+$ head_token_id &lt;chr&gt; "4", "5", "20", "5", "12", "12", "5", "15", "16", "12", …
+$ dep_rel       &lt;chr&gt; "compound", "amod", "nsubj", "nmod", "amod", "compound",…
+$ deps          &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+$ misc          &lt;chr&gt; "SpaceAfter=No", NA, NA, "SpaceAfter=No", NA, NA, NA, NA…</code></pre>
+</div>
+</div>
+<p>Now, we are ready to do some sentiment analysis with <code>txt_sentiment</code>.</p>
+<p>First, we are going to consult the documentation of the package to know what functions we can execute. A good entry point is to check out the vignette, usually a kind of quick introduction to the pack. Another option is to go directly to the function’s documentation, where we will find a description of the parameters and examples.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">browseVignettes</span>(<span class="st">"udpipe"</span>) <span class="co"># vignette</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>?udpipe<span class="sc">::</span>txt_sentiment <span class="co"># function documentation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>txt_sentiment</code> parameters are:</p>
+<ul>
+<li><p><code>x</code> is the dataframe returned by preprocessing with <code>udpipe</code>;</p></li>
+<li><p><code>term</code> is the name of the column (inside <code>x</code>) that contains the sentences to parse;</p></li>
+<li><p><code>polarity_terms</code> is a dataframe that contains 2 columns: <code>terms</code> and <code>polarity</code>, which can be <code>1</code> or <code>-1</code>. To create this we will use again a <em>lexicon</em> from <code>textdata</code></p></li>
+<li><p><code>polarity_negators</code> , <code>polarity_amplifiers</code>, <code>polarity_deamplifiers</code> are vectors of words that negate, increase or decrease the orientation of words (for example, if we have “good” in the lexicon with a rating of 1, and “very” inside the amplifiers, “very good” could assume a higher rating than the one given by the lexicon, with a factor that is made explicit in amplifier_weight). The window of words in which these words are searched is configured with <code>n_before</code> and <code>n_after</code>.</p></li>
+</ul>
+<p>Let’s prepare our lexicons and other tables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>polarity_terms <span class="ot">&lt;-</span> affin <span class="sc">%&gt;%</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">polarity =</span> <span class="fu">if_else</span>(value <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">term=</span>word, polarity)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co"># let set some basic negators, amplifiers and deamplifiers</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>polarity_negators <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"not"</span>, <span class="st">"never"</span>, <span class="st">"nobody"</span>)</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>polarity_amplifiers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"very"</span>)</span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>polarity_deamplifiers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"less"</span>, <span class="st">"almost"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>All set! Let’s run the function and see the resulting object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>sentiment_bd_functions <span class="ot">&lt;-</span> udpipe<span class="sc">::</span><span class="fu">txt_sentiment</span>(</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> sentences_bd_anotated_meaningful,</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">term =</span> <span class="st">"lemma"</span>,</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">polarity_terms =</span> polarity_terms,</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">polarity_negators =</span> polarity_negators,</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">polarity_amplifiers =</span> polarity_amplifiers,</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">polarity_deamplifiers =</span> polarity_deamplifiers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the case of the object returned by <code>txt_sentiment</code>, there are 2 objects that we can query:</p>
+<ul>
+<li><p><code>$data</code> which has the table resulting from the crossing of the annotated sentences (remember: 1 row x lemma) with the dictionaries and modifiers, giving a final value in <code>data$sentiment_polarity</code>;</p></li>
+<li><p><code>$overall</code> which has the table with the values at the sentence level, including the polarity in <code>$overall$sentiment_polarity</code>;</p></li>
+</ul>
+<p>Let’s look at this last object, to evaluate the results: <code>txt_sentiment</code> sums the word scores per sentence, which makes longer sentences expected to show more extreme polarity. For this reason, it may be convenient to normalize this score by the number of words in each sentence:</p>
+<!--# 2do: falta incluir otra vez la oracion, para ver que decía -->
+<!--# 2do: esto esta mal, no deberia ser por la cantidad de palabras sino por la palabras con valor... -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>sentiment_bd_functions<span class="sc">$</span>overall <span class="sc">%&gt;%</span> </span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sentiment_polarity2=</span>sentiment_polarity<span class="sc">/</span>terms) <span class="sc">%&gt;%</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> sentiment_polarity2, <span class="at">n=</span><span class="dv">10</span>) <span class="co">#%&gt;%</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    doc_id sentiment_polarity sentences terms
+ 1:     34                  1         1     3
+ 2:     26                  4         1    14
+ 3:     32                  3         1    11
+ 4:      1                  4         1    18
+ 5:     38                  4         1    18
+ 6:      7                  2         1    10
+ 7:     15                  1         1     5
+ 8:     21                  3         1    15
+ 9:     14                  2         1    11
+10:     39                  7         1    39
+                                           terms_positive terms_negative
+ 1:                                                   big               
+ 2:                                    big, promise, save               
+ 3:                                                   big           risk
+ 4:                     big, expand, reach, sophisticated               
+ 5:                         big, help, improvement, smart               
+ 6:                                        authority, big               
+ 7:                                                   big               
+ 8:                                    ability, big, huge               
+ 9:                                      big, help, smart      challenge
+10: better, big, ensure, free, improve, intelligent, save               
+    terms_negation terms_amplification sentiment_polarity2
+ 1:                                              0.3333333
+ 2:                                              0.2857143
+ 3:                                              0.2727273
+ 4:                                              0.2222222
+ 5:                                              0.2222222
+ 6:                                              0.2000000
+ 7:                                              0.2000000
+ 8:                                              0.2000000
+ 9:                                              0.1818182
+10:                                              0.1794872</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#left_join(sentences_bd, by=("doc_id" = "sentence_id")) %&gt;%</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#select(sentiment_polarity2, sentence)</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>sentiment_bd_functions<span class="sc">$</span>overall <span class="sc">%&gt;%</span> </span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sentiment_polarity2=</span>sentiment_polarity<span class="sc">/</span>terms) <span class="sc">%&gt;%</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_min</span>(<span class="at">order_by =</span> sentiment_polarity2, <span class="at">n=</span><span class="dv">10</span>) <span class="co">#%&gt;%</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    doc_id sentiment_polarity sentences terms terms_positive   terms_negative
+ 1:      3                 -1         1    21            big aggressive, risk
+ 2:     12                 -1         1    30            big   burden, suffer
+ 3:      5                  0         1    20      big, help   casualty, risk
+ 4:      8                  0         1    20     big, legal challenge, risks
+ 5:     17                  0         1    20            big              cut
+ 6:     29                  0         2    47            big             risk
+ 7:     30                  0         1    13            big         weakness
+ 8:     33                  0         1     7            big          problem
+ 9:     41                  0         1    49            big        challenge
+10:     28                  1         1    23            big                 
+    terms_negation terms_amplification sentiment_polarity2
+ 1:                                            -0.04761905
+ 2:                                            -0.03333333
+ 3:                                             0.00000000
+ 4:                                             0.00000000
+ 5:                                             0.00000000
+ 6:                                             0.00000000
+ 7:                                             0.00000000
+ 8:                                             0.00000000
+ 9:                                             0.00000000
+10:                                             0.04347826</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#left_join(sentences_bd, by=("doc_id" = "sentence_id")) %&gt;%</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#select(sentiment_polarity2, sentence)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Makes sense, right?</p>
+</section>
 </section>
 <section id="topic-modeling" class="level1">
 <h1>(4) Topic modeling</h1>
-<p>xxx</p>
+<p>In this exercise we will focus on topic modeling, an <em>unsupervised learning</em> technique that seeks to build topics or themes based on the distribution and correlation of words in a set of documents.</p>
+<p>Throughout this exercise we will see:</p>
 <ul>
-<li><p>Grimmer, J., &amp; Stewart, B. M. (2013). Text as data: The promise and pitfalls of automatic content analysis methods for political texts. Political Analysis, 21(3), 267–297. <a href="https://doi.org/10.1093/pan/mps028" class="uri">https://doi.org/10.1093/pan/mps028</a></p></li>
-<li><p>Jacobi, C., van Atteveldt, W., &amp; Welbers, K. (2016). Quantitative analysis of large amounts of journalistic texts using topic modeling. Digital Journalism, 4(1), 89–106. <a href="https://doi.org/10.1080/21670811.2015.1093271" class="uri">https://doi.org/10.1080/21670811.2015.1093271</a></p></li>
+<li><p>how to pre-process text for further analysis;</p></li>
+<li><p>how to build document/terms vectors;</p></li>
+<li><p>how to model topics;</p></li>
+<li><p>how to interpret a model.</p></li>
 </ul>
+<p>We will work with a small corpus of news about big data. We will try to see how big data is portrayed and contextualized in news, so topic modeling can assist us in the analysis of discursive frames.</p>
+<p>You can check more on these tasks and topics here:</p>
+<ul>
+<li><p><a href="https://www.tidytextmining.com/topicmodeling.html" class="uri">https://www.tidytextmining.com/topicmodeling.html</a></p></li>
+<li><p><a href="https://bnosac.github.io/udpipe/docs/doc6.html" class="uri">https://bnosac.github.io/udpipe/docs/doc6.html</a></p></li>
+</ul>
+<p>Throughout this tutorial we will work with several libraries, which we can install with the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"readr"</span>, <span class="st">"tidyverse"</span>, <span class="st">"tidytext"</span>, <span class="st">"udpipe"</span>)) </span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"topicmodels"</span>, <span class="st">"stopwords"</span> )) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="about-the-algorithm-lda" class="level3">
+<h3 class="anchored" data-anchor-id="about-the-algorithm-lda">About the algorithm: LDA</h3>
+<!--# 2do: aca hay que meter algo de jacobi2016 -->
+<p>There are several implementations of topic modeling. We will be using the most common (and basic) algorithm: Latent Dirichlet allocation, via the <code>topicmodels</code> pack.</p>
+<blockquote class="blockquote">
+<p>Topic models draw on the notion of distributional semantics and make use of the so-called bag of words assumption, i.e., the ordering of words within each document is ignored. To grasp the thematic structure of a document, it is sufficient to describe its distribution of words</p>
+</blockquote>
+<p>Maier, Daniel, A. Waldherr, P. Miltner, G. Wiedemann, A. Niekler, A. Keinert, B. Pfetsch, et al.&nbsp;2018. "Applying LDA Topic Modeling in Communication Research: Toward a Valid and Reliable Methodology." <em>Communication Methods and Measures</em> 12 (2-3): 93–118. <a href="https://doi.org/10.1080/19312458.2018.1430754" class="uri">https://doi.org/10.1080/19312458.2018.1430754</a>.</p>
+<!--# 2do: voy a tener que ver el citado -->
+<p>This model generates topics by proposing a certain distribution of all the words in the corpus, and calculating the distribution of these topics in each document.</p>
+<p><img src="images/paste-BC8B22A6.png" class="img-fluid"></p>
+<p>Blei, David. 2012. "Probabilistic topic models." <em>Communications of the ACM</em> 55 (4): 77. <a href="https://doi.org/10.1145/2133806.2133826" class="uri">https://doi.org/10.1145/2133806.2133826</a>.</p>
+<p>What is interesting about this way of understanding topics operational is that each topic can be understood as a semantic field, a set of words that are usually correlated in different documents. Then, when analyzing these results, we will try to infer a theme from the words that contribute the most to each topic. E.g., we could infer from a topic that the terms “sale”, “product” and “buyer” contribute strongly to the topic “trade”. According to one of the model’s authors, the interpretability of most topics is a result of “the statistical structure of the language and how it interacts with LDA-specific probabilistic assumptions” (D. Blei, 2012, p.&nbsp;79).</p>
+<p>At the same time, the words are not exclusive to one topic but cross all topics with a relative contribution. This is precisely what interests us since we want to compare different ways of “contextualizing” the same term (“big data”) across different topics, characterized by the use of certain other words.</p>
+<p>The utility of this technique for our purposes has been detailed in this paper:</p>
+<p>Jacobi, Carina, Wouter van Atteveldt, and Kasper Welbers. 2016. "Quantitative analysis of large amounts of journalistic texts using topic modelling." <em>Digital Journalism</em> 4 (1): 89–106. <a href="https://doi.org/10.1080/21670811.2015.1093271" class="uri">https://doi.org/10.1080/21670811.2015.1093271</a>.</p>
+</section>
+<section id="text-pre-processing" class="level3">
+<h3 class="anchored" data-anchor-id="text-pre-processing">Text pre-processing</h3>
+<p>As in any natural language processing task, we will start by loading the corpus and pre-processing text.</p>
+<!--# 2do: mejorar el corpus, sumando otras noticias que no sean de health -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidytext) </span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>corpus <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">'./data/paganoni_corpus_UK_News_Health.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 50 Columns: 3
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (3): doc_id, text, file_name
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(corpus) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 50
+Columns: 3
+$ doc_id    &lt;chr&gt; "BBDFT160304.txt", "BBDFT160401.txt", "BBDFT160516.txt", "BB…
+$ text      &lt;chr&gt; "\n                                     FT.com\n\n          …
+$ file_name &lt;chr&gt; "BBDFT160304", "BBDFT160401", "BBDFT160516", "BBDFT161129", …</code></pre>
+</div>
+</div>
+<p>In order to complete our first analyses, we will perform several pre-processing tasks:</p>
+<ul>
+<li><p>We will do a morphosyntatic analysis to determine the different components of the sentence;</p></li>
+<li><p>We will reduce the words to their lemmas, basic word forms, without gender or conjugation;</p></li>
+<li><p>We will discard some common words, keeping only the most significant ones.</p></li>
+</ul>
+<p>For these tasks we will work with <code>udPipe</code> package, which we used in the previous exercises.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(udpipe) </span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>model_en <span class="ot">&lt;-</span> <span class="fu">udpipe_load_model</span>(<span class="at">file =</span> <span class="st">"E:/r/UW - Big Data and Data Mining/english-ewt-ud-2.5-191206.udpipe"</span>) <span class="co"># load language model</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>corpus_anotated <span class="ot">&lt;-</span> <span class="fu">udpipe_annotate</span>( </span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> model_en, </span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> corpus<span class="sc">$</span>text, </span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">doc_id =</span> corpus<span class="sc">$</span>doc_id, </span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">trace =</span> <span class="dv">10</span></span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>(.) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2022-09-30 02:41:07 Annotating text fragment 1/50
+2022-09-30 02:41:12 Annotating text fragment 11/50
+2022-09-30 02:41:18 Annotating text fragment 21/50
+2022-09-30 02:41:18 Annotating text fragment 31/50
+2022-09-30 02:41:22 Annotating text fragment 41/50</code></pre>
+</div>
+</div>
+<p>We will use the <code>upos</code> information to filter the words that could be more significant: adjectives, verbs, and nouns. Here we omit the adverbs, since we are not interested in the possible modifications of the meaning between close words, such as negations or amplifications. We will also introduce another filter: we will eliminate very common words in the language, which may not help us to identify a semantic field. For that we use a dictionary of common words, from the <code>stopwords</code> package, and we will eliminate those records with <code>filter()</code>.</p>
+<!--# Additionally, we include a set of ad-hoc verbs to be removed. -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stopwords)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>corpus_anotated2 <span class="ot">&lt;-</span> corpus_anotated <span class="sc">%&gt;%</span> </span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(upos<span class="sc">==</span><span class="st">"ADJ"</span><span class="sc">|</span> upos<span class="sc">==</span><span class="st">"VERB"</span><span class="sc">|</span> upos<span class="sc">==</span><span class="st">"NOUN"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>( doc_id, lemma ) <span class="sc">%&gt;%</span> </span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>lemma <span class="sc">%in%</span> stopwords<span class="sc">::</span><span class="fu">stopwords</span>(<span class="at">language =</span> <span class="st">"en"</span>))</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(corpus_anotated2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 9,055
+Columns: 2
+$ doc_id &lt;chr&gt; "BBDFT160304.txt", "BBDFT160304.txt", "BBDFT160304.txt", "BBDFT…
+$ lemma  &lt;chr&gt; "pm", "grow", "medical", "tech", "sector", "look", "rude", "hea…</code></pre>
+</div>
+</div>
+</section>
+<section id="text-vectors" class="level3">
+<h3 class="anchored" data-anchor-id="text-vectors">Text vectors</h3>
+<!--# corregir idioma: vectors? -->
+<p>Usually machine learning models are trained with data structured in the form of tables. When we work with text we must build these tables from the words of the document with which we are working. We do this with vectoring.</p>
+<p>Let’s suppose we have two documents with one sentence each:</p>
+<ol type="1">
+<li><p><code>Big data is a the set of techniques to analyze and manipulate our thinking</code></p></li>
+<li><p><code>Google analyzes big data to infer the rate of contagion of flu.</code></p></li>
+</ol>
+<p>If we convert the words on these sentences to <em>lemmas</em> and filter important words, they would read as:</p>
+<ol type="1">
+<li><p><code>bigdata being technical analyze manipulate thought</code></p></li>
+<li><p><code>google analyze bigdata infer rate contagion flu</code></p></li>
+</ol>
+<p>Let’s see what these vectorized sentences would look like:</p>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 13%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Doc</th>
+<th style="text-align: center;">bigdata</th>
+<th style="text-align: center;">being</th>
+<th style="text-align: center;">technical</th>
+<th style="text-align: center;">analyze</th>
+<th style="text-align: center;">manipulate</th>
+<th style="text-align: center;">infer</th>
+<th style="text-align: center;">rate</th>
+<th style="text-align: center;">contagion</th>
+<th style="text-align: center;">flu</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+<p>Here we have reduced each sentence to a “bag of words”, which lost the context of formulation of verbal expressions, losing order. We are left with a general vocabulary that, for each sentence, notes the frequency of appearance with <code>1</code> and <code>0</code>. This data that is interpretable by a computer and can be used to train a machine learning model.</p>
+<p>With the <code>count()</code> function it is very easy to build a vector, if we use the document id and the words as inputs. We can then convert our word distribution table to this type of object (document text matrix) using the <code>tidytext</code>’s <code>cast_dtm()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>corpus_dtm <span class="ot">&lt;-</span> corpus_anotated2 <span class="sc">%&gt;%</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(doc_id, lemma, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cast_dtm</span>(doc_id, lemma, n) </span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>corpus_dtm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;&lt;DocumentTermMatrix (documents: 50, terms: 2795)&gt;&gt;
+Non-/sparse entries: 6079/133671
+Sparsity           : 96%
+Maximal term length: 19
+Weighting          : term frequency (tf)</code></pre>
+</div>
+</div>
+<p>The <code>DocumentTermMatrix</code> object shows us of the number of documents and unique words, and indicates a % of words that appear 0 times in a document (Sparsity).</p>
+</section>
+<section id="create-a-topic-model-with-lda" class="level3">
+<h3 class="anchored" data-anchor-id="create-a-topic-model-with-lda">Create a topic model with LDA</h3>
+<p>We are going to build the model with the <code>LDA()</code> function.</p>
+<p>An important decision, which must be entered as a parameter to perform the analyses, is the number of topics to generate. Let’s start with a judicious number, quick to test, and easy to examine, and come back to this problem later.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(topicmodels)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>k_topics <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="co"># number of topics</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>corpus_tm <span class="ot">&lt;-</span> topicmodels<span class="sc">::</span><span class="fu">LDA</span>(</span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  corpus_dtm, </span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">k =</span> k_topics, </span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"Gibbs"</span>, <span class="co"># sampling method</span></span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">seed =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">nstart=</span><span class="dv">5</span>, <span class="at">verbose=</span><span class="dv">1000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>K = 5; V = 2795; M = 50
+Sampling 2000 iterations!
+Iteration 1000 ...
+Iteration 2000 ...
+Gibbs sampling completed!
+K = 5; V = 2795; M = 50
+Sampling 2000 iterations!
+Iteration 1000 ...
+Iteration 2000 ...
+Gibbs sampling completed!
+K = 5; V = 2795; M = 50
+Sampling 2000 iterations!
+Iteration 1000 ...
+Iteration 2000 ...
+Gibbs sampling completed!
+K = 5; V = 2795; M = 50
+Sampling 2000 iterations!
+Iteration 1000 ...
+Iteration 2000 ...
+Gibbs sampling completed!
+K = 5; V = 2795; M = 50
+Sampling 2000 iterations!
+Iteration 1000 ...
+Iteration 2000 ...
+Gibbs sampling completed!</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>corpus_tm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>A LDA_Gibbs topic model with 5 topics.</code></pre>
+</div>
+</div>
+<p>Now let’s export these results in 2 formats that we are interested in exploring, using the <code>tidy</code> function, and specifying which probabilities we are interested in:</p>
+<ul>
+<li><p><strong>beta</strong>: topic x term probability;</p></li>
+<li><p><strong>gamma</strong>: topic x document probability;</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>tm_beta <span class="ot">&lt;-</span> <span class="fu">tidy</span>(corpus_tm, <span class="at">matrix =</span> <span class="st">"beta"</span>)</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(tm_beta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 13,975
+Columns: 3
+$ topic &lt;int&gt; 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2…
+$ term  &lt;chr&gt; "fat", "fat", "fat", "fat", "fat", "data", "data", "data", "data…
+$ beta  &lt;dbl&gt; 1.838702e-02, 4.917630e-05, 4.525911e-05, 4.656577e-05, 5.166624…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>tm_gamma <span class="ot">&lt;-</span> <span class="fu">tidy</span>(corpus_tm, <span class="at">matrix =</span> <span class="st">"gamma"</span>)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(tm_gamma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 250
+Columns: 3
+$ document &lt;chr&gt; "BBDGU160408.txt", "BBDFT160516.txt", "BBDFT160401.txt", "BBD…
+$ topic    &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+$ gamma    &lt;dbl&gt; 0.71668533, 0.07462687, 0.05731225, 0.05344828, 0.05862069, 0…</code></pre>
+</div>
+</div>
+<p>The results produced by the model can be useful to infer topics. However, this implies an iterative process of interpretation by the researcher, which includes several moments:</p>
+<ol type="1">
+<li><p>labeling and organizing topics;</p></li>
+<li><p>content analysis;</p></li>
+<li><p>validation;</p></li>
+</ol>
+<p>As in qualitative designs, we must take into consideration 2 issues: that the different tasks and moments of the analysis are not sequential but rather iterative, and that we will constantly make decisions that affect (forward) and inform (backwards) to other times; that all these decisions will be clearer and more robust if they are the product of consensus between different analysts who work autonomously and who document and exchange the reasons for their decisions.</p>
+<section id="labeling-and-analyzing-the-model" class="level4">
+<h4 class="anchored" data-anchor-id="labeling-and-analyzing-the-model">Labeling and analyzing the model</h4>
+<p>Labeling is not a different process from qualitative coding, that is, the interactive interpretation of repeated ideas and expressions and the imputation of a code or label that identifies it. In terms of coding, preparing the data for this task is very easy: we simply list the terms that contribute the most to each topic.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>tm_beta <span class="sc">%&gt;%</span> <span class="co"># terms</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">%&gt;%</span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n</span>(<span class="dv">15</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(topic, <span class="sc">-</span>beta) <span class="sc">%&gt;%</span> <span class="co"># vamos a mostrarlo como grafico</span></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(term, (beta)),<span class="at">y=</span>beta)) <span class="sc">+</span> </span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>topic, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Selecting by beta</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="UW---Big-Data-and-Data-Mining_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The goal of this analysis is to (manually) evaluate if there is a coherent field of words in each topic, and assign a label that describes it.</p>
+<!--# 2do: cambiar con un corpus mas copado -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>topic_names <span class="ot">&lt;-</span> <span class="fu">rbind</span>( </span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">topic =</span> <span class="dv">1</span> , <span class="at">nombre =</span> <span class="st">"1. diet"</span>),</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">topic =</span> <span class="dv">2</span> , <span class="at">nombre =</span> <span class="st">"2. jobs"</span>),</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">topic =</span> <span class="dv">3</span> , <span class="at">nombre =</span> <span class="st">"3. insurance"</span>),</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">topic =</span> <span class="dv">4</span> , <span class="at">nombre =</span> <span class="st">"4. medical industry"</span>),</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">topic =</span> <span class="dv">5</span> , <span class="at">nombre =</span> <span class="st">"5. health and care"</span>)</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">topic=</span><span class="fu">as.integer</span>(topic))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It is important to bear in mind that not all topics will always present a coherent semantic field: in many cases they can refer to regularities typical of the type of communication that we are analyzing, or a mixture of words such that instead of allowing us to infer a univocal field (incoherent).</p>
+<p>Next, we need to organize our topics:</p>
+<ul>
+<li><p>Should we discard irrelevant topics?: We can decide to filter out other topics that are irrelevant for our research purposes.</p></li>
+<li><p>Should we group topics?: Generally, in qualitative coding, this process is done in iterations, making more abstract and coherent inferences, allowing us to move from the codes to themes and arguments. The LDA model does not have this hierarchical structure, but we can group or collapse topics into more general themes. This is almost always necessary when working with higher Ks.</p></li>
+</ul>
+</section>
+<section id="content-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="content-analysis">Content analysis</h4>
+<!--# 2do: el tema aca es combinacion entre TM y content -->
+<p>One of the main benefits of TM is that it allows the researcher to perform a quick exploration of the corpus, inferring a probable way to organize and classify the documents, thus facilitating subsequent tasks, such as comparisons between documents, or between other corpus. Certainly <strong>these types of automatic techniques do not replace content analysis and the researcher’s interpretation,</strong> but they can, however, <strong>complement them in a mixed research design</strong>. TM can be useful either in an inductive phase, contributing to the first explorations of the corpus, or by triangulating results to support the researcher’s hypotheses.</p>
+<blockquote class="blockquote">
+<p><em>Topic models must find what we know is there.</em> Ultimately, a topic model’s trustworthiness must be determined by informed human judgments. In particular, the model must find the broad trends and facts known to be true by the practitioner of the domain. Without such support in finding the known, topic models have limited value in discovering the unknown — i.e.&nbsp;quantifying known trends or discovering unexpected ones.</p>
+</blockquote>
+<p>Ramage2009</p>
+<!--# 2do: ver citation -->
+<!--# 2do: meter algo de Grimmer & Stewart, 2013; Lindstedt, 2019)// (Valdez , Picket & Goodson, 2018; Murakami, et al., 2017).  -->
+<p>In any cases, we should select a few representative documents to perform qualitative analysis.</p>
+<p>Let’s create a small sample, by identifying documents with highest probability in each topic using <code>tm_gamma</code>. Let us assume that with 5 documents we can perform our analyses (in qualitative samples, this number is not an <em>a priori</em> decission).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>tm_gamma <span class="sc">%&gt;%</span> </span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topic) <span class="sc">%&gt;%</span></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(gamma, <span class="at">n=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 25 × 3
+# Groups:   topic [5]
+   document            topic gamma
+   &lt;chr&gt;               &lt;int&gt; &lt;dbl&gt;
+ 1 BBDGU160408.txt         1 0.717
+ 2 BBDTI170719.txt         1 0.238
+ 3 BBDEC180201.txt         1 0.238
+ 4 BBDFT180204.txt         1 0.237
+ 5 BBDIN170512.txt         1 0.222
+ 6 BBDIN161127 BIS.txt     2 0.579
+ 7 BBDIN170410.txt         2 0.543
+ 8 BBDTL170504.txt         2 0.431
+ 9 BBDTI170819BIS.txt      2 0.24 
+10 BBDGU170505.txt         2 0.229
+# … with 15 more rows</code></pre>
+</div>
+</div>
+<!--# 2do: llevar al ppt la discusion de outliers y topicos en contexto -->
+</section>
+<section id="model-validation" class="level4">
+<h4 class="anchored" data-anchor-id="model-validation">Model validation</h4>
+<p>At the time of validation, we seek to find out how solid our interpretation of the model is.</p>
+<p>One way to validate our model and inferences, we could propose some <strong>content and metadata</strong> <strong>hypothesis</strong> for further exploration. This could be data not used in the model construction, e.g., document publication date, or publisher information).</p>
+<p>For its part, <strong>statistical validation</strong> seeks to measure how reliable the model is, in terms of how consistent its results are.</p>
+<p><em>Perplexity</em> is the most used measure in this type of tests. This is a metric that results from a held-out likelihood test in which, once the model has been trained with certain parameters, it is used to predict the topics of “new” documents for the model, that is, documents that were not part of the model construction. of the corpus with which it was trained. This generally is done for estimating different models with different parameters, like the number of topics (K). We could separate some documents from our corpus to have “new” documents, and train several TM models with different values of K; finally, we are going to plot the results of the perplexity tests. Since perplexity is a measure of inconsistency, a lower value is appropriate. Generally these values are achieved at a higher K.</p>
+</section>
+</section>
 </section>
 <section id="corpus-building" class="level1">
 <h1>(5) Corpus building</h1>
 <p>xxx</p>
+</section>
+<section id="other-materials" class="level1">
+<h1>Other materials</h1>
+<p>It would be good to mention the using of legal knowledge bases from the big data perspective. They are available mostly in national languages but the EU Eurolex and Curia are available in all official EU languages.&nbsp;</p>
+<p><a href="https://eur-lex.europa.eu/homepage.html?locale=pl" class="uri">https://eur-lex.europa.eu/homepage.html?locale=pl</a></p>
+<p><a href="https://curia.europa.eu/jcms/jcms/Jo1_6308/" class="uri">https://curia.europa.eu/jcms/jcms/Jo1_6308/</a></p>
+<p><a href="https://www.echr.coe.int/Pages/home.aspx?p=caselaw/HUDOC&amp;c=" class="uri">https://www.echr.coe.int/Pages/home.aspx?p=caselaw/HUDOC&amp;c=</a></p>
+<p><a href="https://uncitral.un.org/sites/uncitral.un.org/files/media-documents/uncitral/en/facts_about_clout_eng_ebook.pdf" class="uri">https://uncitral.un.org/sites/uncitral.un.org/files/media-documents/uncitral/en/facts_about_clout_eng_ebook.pdf</a></p>
+<p><a href="https://www.ilo.org/inform/online-information-resources/databases/terminology/lang--en/index.htm" class="uri">https://www.ilo.org/inform/online-information-resources/databases/terminology/lang--en/index.htm</a></p>
+<p><a href="https://op.europa.eu/pl/web/eu-vocabularies/det" class="uri">https://op.europa.eu/pl/web/eu-vocabularies/det</a></p>
+<p><a href="https://op.europa.eu/pl/web/eu-vocabularies/dataset/-/resource?uri=http://publications.europa.eu/resource/dataset/eurovoc" class="uri">https://op.europa.eu/pl/web/eu-vocabularies/dataset/-/resource?uri=http://publications.europa.eu/resource/dataset/eurovoc</a></p>
+<p><a href="https://unimelb.libguides.com/c.php?g=929605&amp;p=6716619" class="uri">https://unimelb.libguides.com/c.php?g=929605&amp;p=6716619</a></p>
+<p><a href="https://www.icj-cij.org/en/cases" class="uri">https://www.icj-cij.org/en/cases</a></p>
+<p><a href="https://www.icc-cpi.int/cases" class="uri">https://www.icc-cpi.int/cases</a></p>
+<p>https://hudoc.echr.coe.int/eng#{%22documentcollectionid2%22:[%22GRANDCHAMBER%22,%22CHAMBER%22]}</p>
+<p>abstracts de articulo de law</p>
 </section>
 
 </main>

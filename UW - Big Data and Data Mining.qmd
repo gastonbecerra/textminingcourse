@@ -20,33 +20,7 @@ This document is a brief companion to the practical part of the course. It is ma
 
 -   Silge, J., & Robinson, D. (2017). Text Mining with R. A Tidy Approach. O'Reilly. <https://www.tidytextmining.com/>
 
-## Other materials
-
-It would be good to mention the using of legal knowledge bases from the big data perspective. They are available mostly in national languages but the EU Eurolex and Curia are available in all official EU languages. 
-
-<https://eur-lex.europa.eu/homepage.html?locale=pl>
-
-<https://curia.europa.eu/jcms/jcms/Jo1_6308/>
-
-<https://www.echr.coe.int/Pages/home.aspx?p=caselaw/HUDOC&c=>
-
-<https://uncitral.un.org/sites/uncitral.un.org/files/media-documents/uncitral/en/facts_about_clout_eng_ebook.pdf>
-
-<https://www.ilo.org/inform/online-information-resources/databases/terminology/lang--en/index.htm>
-
-<https://op.europa.eu/pl/web/eu-vocabularies/det>
-
-<https://op.europa.eu/pl/web/eu-vocabularies/dataset/-/resource?uri=http://publications.europa.eu/resource/dataset/eurovoc>
-
-<https://unimelb.libguides.com/c.php?g=929605&p=6716619>
-
-<https://www.icj-cij.org/en/cases>
-
-<https://www.icc-cpi.int/cases>
-
-https://hudoc.echr.coe.int/eng#{%22documentcollectionid2%22:\[%22GRANDCHAMBER%22,%22CHAMBER%22\]}
-
-abstracts de articulo de law
+<!--# 2do: tengo que esconder comentarios y warnings y hacer menos conciso, y vincular el ppt -->
 
 # (1) Introduction to R & RStudio
 
@@ -104,6 +78,8 @@ library(tidyverse)
 We will then import the data with the `read_csv()` function from the `readr` package. In RStudio you can list a package's functions by typing their name followed by `::`.
 
 We are interested in keeping this data as an object in memory, since we will be working with it in what follows. To do this, we use an assignment operator `<-` preceded by the name that we will give to the object.
+
+<!--# 2do: aca hay que traducir esto con google y ya -->
 
 ```{r}
 
@@ -369,6 +345,8 @@ First, let's decompose our sentences in word *tokens*. These can be bind back be
 
 ```{r}
 
+library(tidytext)
+
 words_bd <- sentences_bd %>%
   unnest_tokens(output = word, input = sentence, token = "words") %>%
   select(-key , -file_name) # we're dropping the key column
@@ -379,7 +357,6 @@ Second, let's prepare our *lexicon*. We are using generic sentiment lexicons fro
 
 ```{r}
 
-library(tidytext)
 library(textdata)
 
 affin <- get_sentiments("afinn") # import the lexicon
@@ -468,8 +445,11 @@ model_en <- udpipe_load_model(file = model_en$file_model) # load language model
 
 ```
 
-```{r}
+<!--# 2do: poner recursos online, en drive, al menos -->
 
+<!--# 2do: ver que los eval esten corriendo; meter otros para que la compilacion no sea la muerte -->
+
+```{r}
 #| eval: true
 #| echo: false
 
@@ -524,7 +504,7 @@ browseVignettes("udpipe") # vignette
 
 ```
 
-The `txt_sentiment` paramenters are:
+The `txt_sentiment` parameters are:
 
 -   `x` is the dataframe returned by preprocessing with `udpipe`;
 
@@ -572,19 +552,23 @@ In the case of the object returned by `txt_sentiment`, there are 2 objects that 
 
 Let's look at this last object, to evaluate the results: `txt_sentiment` sums the word scores per sentence, which makes longer sentences expected to show more extreme polarity. For this reason, it may be convenient to normalize this score by the number of words in each sentence:
 
+<!--# 2do: falta incluir otra vez la oracion, para ver que decía -->
+
+<!--# 2do: esto esta mal, no deberia ser por la cantidad de palabras sino por la palabras con valor... -->
+
 ```{r}
 
 sentiment_bd_functions$overall %>% 
   mutate(sentiment_polarity2=sentiment_polarity/terms) %>%
-  slice_max(order_by = sentiment_polarity2, n=10) %>%
-  left_join(sentences_bd, by=("doc_id" = "sentence_id")) %>%
-  select(sentiment_polarity2, sentence)
+  slice_max(order_by = sentiment_polarity2, n=10) #%>%
+  #left_join(sentences_bd, by=("doc_id" = "sentence_id")) %>%
+  #select(sentiment_polarity2, sentence)
 
 sentiment_bd_functions$overall %>% 
   mutate(sentiment_polarity2=sentiment_polarity/terms) %>%
-  slice_min(order_by = sentiment_polarity2, n=10) %>%
-  left_join(sentences_bd, by=("doc_id" = "sentence_id")) %>%
-  select(sentiment_polarity2, sentence)
+  slice_min(order_by = sentiment_polarity2, n=10) #%>%
+  #left_join(sentences_bd, by=("doc_id" = "sentence_id")) %>%
+  #select(sentiment_polarity2, sentence)
 
 ```
 
@@ -592,12 +576,325 @@ Makes sense, right?
 
 # (4) Topic modeling
 
+In this exercise we will focus on topic modeling, an *unsupervised learning* technique that seeks to build topics or themes based on the distribution and correlation of words in a set of documents.
+
+Throughout this exercise we will see:
+
+-   how to pre-process text for further analysis;
+
+-   how to build document/terms vectors;
+
+-   how to model topics;
+
+-   how to interpret a model.
+
+We will work with a small corpus of news about big data. We will try to see how big data is portrayed and contextualized in news, so topic modeling can assist us in the analysis of discursive frames.
+
+You can check more on these tasks and topics here:
+
+-   <https://www.tidytextmining.com/topicmodeling.html>
+
+-   <https://bnosac.github.io/udpipe/docs/doc6.html>
+
+Throughout this tutorial we will work with several libraries, which we can install with the following code:
+
+```{r}
+#| eval: false
+
+install.packages(c("readr", "tidyverse", "tidytext", "udpipe")) 
+install.packages(c("topicmodels", "stopwords" )) 
+
+```
+
+### About the algorithm: LDA
+
+<!--# 2do: aca hay que meter algo de jacobi2016 -->
+
+There are several implementations of topic modeling. We will be using the most common (and basic) algorithm: Latent Dirichlet allocation, via the `topicmodels` pack.
+
+> Topic models draw on the notion of distributional semantics and make use of the so-called bag of words assumption, i.e., the ordering of words within each document is ignored. To grasp the thematic structure of a document, it is sufficient to describe its distribution of words
+
+Maier, Daniel, A. Waldherr, P. Miltner, G. Wiedemann, A. Niekler, A. Keinert, B. Pfetsch, et al. 2018. \"Applying LDA Topic Modeling in Communication Research: Toward a Valid and Reliable Methodology.\" *Communication Methods and Measures* 12 (2-3): 93--118. <https://doi.org/10.1080/19312458.2018.1430754>.
+
+<!--# 2do: voy a tener que ver el citado -->
+
+<!--# 2do: igual lo teorico va en el PPT, y se aclara en la intro que esto no esta aca -->
+
+This model generates topics by proposing a certain distribution of all the words in the corpus, and calculating the distribution of these topics in each document.
+
+![](images/paste-BC8B22A6.png)
+
+Blei, David. 2012. \"Probabilistic topic models.\" *Communications of the ACM* 55 (4): 77. <https://doi.org/10.1145/2133806.2133826>.
+
+What is interesting about this way of understanding topics operational is that each topic can be understood as a semantic field, a set of words that are usually correlated in different documents. Then, when analyzing these results, we will try to infer a theme from the words that contribute the most to each topic. E.g., we could infer from a topic that the terms "sale", "product" and "buyer" contribute strongly to the topic "trade". According to one of the model's authors, the interpretability of most topics is a result of "the statistical structure of the language and how it interacts with LDA-specific probabilistic assumptions" (D. Blei, 2012, p. 79).
+
+At the same time, the words are not exclusive to one topic but cross all topics with a relative contribution. This is precisely what interests us since we want to compare different ways of "contextualizing" the same term ("big data") across different topics, characterized by the use of certain other words.
+
+The utility of this technique for our purposes has been detailed in this paper:
+
+Jacobi, Carina, Wouter van Atteveldt, and Kasper Welbers. 2016. \"Quantitative analysis of large amounts of journalistic texts using topic modelling.\" *Digital Journalism* 4 (1): 89--106. <https://doi.org/10.1080/21670811.2015.1093271>.
+
+### Text pre-processing
+
+As in any natural language processing task, we will start by loading the corpus and pre-processing text.
+
+<!--# 2do: mejorar el corpus, sumando otras noticias que no sean de health -->
+
+```{r}
+
+library(tidyverse) 
+library(tidytext) 
+library(readr)
+
+corpus <- readr::read_csv(file = './data/paganoni_corpus_UK_News_Health.csv')
+
+glimpse(corpus) 
+
+```
+
+In order to complete our first analyses, we will perform several pre-processing tasks:
+
+-   We will do a morphosyntatic analysis to determine the different components of the sentence;
+
+-   We will reduce the words to their lemmas, basic word forms, without gender or conjugation;
+
+-   We will discard some common words, keeping only the most significant ones.
+
+For these tasks we will work with `udPipe` package, which we used in the previous exercises.
+
+```{r}
+
+library(udpipe) 
+
+model_en <- udpipe_load_model(file = "E:/r/UW - Big Data and Data Mining/english-ewt-ud-2.5-191206.udpipe") # load language model
+
+corpus_anotated <- udpipe_annotate( 
+  object = model_en, 
+  x = corpus$text, 
+  doc_id = corpus$doc_id, 
+  trace = 10
+  ) %>% as.data.frame(.) 
+
+```
+
+We will use the `upos` information to filter the words that could be more significant: adjectives, verbs, and nouns. Here we omit the adverbs, since we are not interested in the possible modifications of the meaning between close words, such as negations or amplifications. We will also introduce another filter: we will eliminate very common words in the language, which may not help us to identify a semantic field. For that we use a dictionary of common words, from the `stopwords` package, and we will eliminate those records with `filter()`.
+
+<!--# Additionally, we include a set of ad-hoc verbs to be removed. -->
+
+```{r}
+
+library(stopwords)
+
+corpus_anotated2 <- corpus_anotated %>% 
+  filter(upos=="ADJ"| upos=="VERB"| upos=="NOUN") %>% 
+  select( doc_id, lemma ) %>% 
+  filter(!lemma %in% stopwords::stopwords(language = "en"))
+
+glimpse(corpus_anotated2)
+
+```
+
+### Text vectors
+
+<!--# corregir idioma: vectors? -->
+
+Usually machine learning models are trained with data structured in the form of tables. When we work with text we must build these tables from the words of the document with which we are working. We do this with vectoring.
+
+Let's suppose we have two documents with one sentence each:
+
+1.  `Big data is a the set of techniques to analyze and manipulate our thinking`
+
+2.  `Google analyzes big data to infer the rate of contagion of flu.`
+
+If we convert the words on these sentences to *lemmas* and filter important words, they would read as:
+
+1.  `bigdata being technical analyze manipulate thought`
+
+2.  `google analyze bigdata infer rate contagion flu`
+
+Let's see what these vectorized sentences would look like:
+
+| Doc | bigdata | being | technical | analyze | manipulate | infer | rate | contagion | flu |
+|:---:|:-------:|:-----:|:---------:|:-------:|:----------:|:-----:|:----:|:---------:|:---:|
+|  1  |    1    |   1   |     1     |    1    |     1      |   0   |  0   |     0     |  0  |
+|  2  |    1    |   0   |     0     |    1    |     0      |   1   |  1   |     1     |  1  |
+
+Here we have reduced each sentence to a "bag of words", which lost the context of formulation of verbal expressions, losing order. We are left with a general vocabulary that, for each sentence, notes the frequency of appearance with `1` and `0`. This data that is interpretable by a computer and can be used to train a machine learning model.
+
+With the `count()` function it is very easy to build a vector, if we use the document id and the words as inputs. We can then convert our word distribution table to this type of object (document text matrix) using the `tidytext`'s `cast_dtm()` function.
+
+```{r}
+
+corpus_dtm <- corpus_anotated2 %>%
+  count(doc_id, lemma, sort = TRUE) %>% 
+  cast_dtm(doc_id, lemma, n) 
+
+corpus_dtm
+
+```
+
+The `DocumentTermMatrix` object shows us of the number of documents and unique words, and indicates a % of words that appear 0 times in a document (Sparsity).
+
+### Create a topic model with LDA
+
+We are going to build the model with the `LDA()` function.
+
+An important decision, which must be entered as a parameter to perform the analyses, is the number of topics to generate. Let's start with a judicious number, quick to test, and easy to examine, and come back to this problem later.
+
+```{r}
+
+library(topicmodels)
+
+k_topics <- 5 # number of topics
+
+corpus_tm <- topicmodels::LDA(
+  corpus_dtm, 
+  k = k_topics, 
+  method = "Gibbs", # sampling method
+  control = list(seed = 1:5, nstart=5, verbose=1000))
+
+corpus_tm
+
+```
+
+Now let's export these results in 2 formats that we are interested in exploring, using the `tidy` function, and specifying which probabilities we are interested in:
+
+-   **beta**: topic x term probability;
+
+-   **gamma**: topic x document probability;
+
+```{r}
+
+tm_beta <- tidy(corpus_tm, matrix = "beta")
+glimpse(tm_beta)
+
+tm_gamma <- tidy(corpus_tm, matrix = "gamma")
+glimpse(tm_gamma)
+
+```
+
+The results produced by the model can be useful to infer topics. However, this implies an iterative process of interpretation by the researcher, which includes several moments:
+
+1.  labeling and organizing topics;
+
+2.  content analysis;
+
+3.  validation;
+
+As in qualitative designs, we must take into consideration 2 issues: that the different tasks and moments of the analysis are not sequential but rather iterative, and that we will constantly make decisions that affect (forward) and inform (backwards) to other times; that all these decisions will be clearer and more robust if they are the product of consensus between different analysts who work autonomously and who document and exchange the reasons for their decisions.
+
+#### Labeling and analyzing the model
+
+Labeling is not a different process from qualitative coding, that is, the interactive interpretation of repeated ideas and expressions and the imputation of a code or label that identifies it. In terms of coding, preparing the data for this task is very easy: we simply list the terms that contribute the most to each topic.
+
+```{r}
+
+tm_beta %>% # terms
+  group_by(topic) %>%
+  top_n(15) %>%
+  ungroup() %>%
+  arrange(topic, -beta) %>% # vamos a mostrarlo como grafico
+  ggplot(aes(x=reorder(term, (beta)),y=beta)) + 
+    geom_col() +
+    facet_wrap(~topic, scales = "free_y") +
+  coord_flip()
+
+```
+
+The goal of this analysis is to (manually) evaluate if there is a coherent field of words in each topic, and assign a label that describes it.
+
+<!--# 2do: cambiar con un corpus mas copado -->
+
+```{r}
+
+topic_names <- rbind( 
+  c(topic = 1 , nombre = "1. diet"),
+  c(topic = 2 , nombre = "2. jobs"),
+  c(topic = 3 , nombre = "3. insurance"),
+  c(topic = 4 , nombre = "4. medical industry"),
+  c(topic = 5 , nombre = "5. health and care")
+) %>% as_tibble() %>% mutate(topic=as.integer(topic))
+
+```
+
+It is important to bear in mind that not all topics will always present a coherent semantic field: in many cases they can refer to regularities typical of the type of communication that we are analyzing, or a mixture of words such that instead of allowing us to infer a univocal field (incoherent).
+
+Next, we need to organize our topics:
+
+-   Should we discard irrelevant topics?: We can decide to filter out other topics that are irrelevant for our research purposes.
+
+-   Should we group topics?: Generally, in qualitative coding, this process is done in iterations, making more abstract and coherent inferences, allowing us to move from the codes to themes and arguments. The LDA model does not have this hierarchical structure, but we can group or collapse topics into more general themes. This is almost always necessary when working with higher Ks.
+
+#### Content analysis
+
+<!--# 2do: el tema aca es combinacion entre TM y content -->
+
+One of the main benefits of TM is that it allows the researcher to perform a quick exploration of the corpus, inferring a probable way to organize and classify the documents, thus facilitating subsequent tasks, such as comparisons between documents, or between other corpus. Certainly **these types of automatic techniques do not replace content analysis and the researcher's interpretation,** but they can, however, **complement them in a mixed research design**. TM can be useful either in an inductive phase, contributing to the first explorations of the corpus, or by triangulating results to support the researcher's hypotheses.
+
+> *Topic models must find what we know is there.* Ultimately, a topic model's trustworthiness must be determined by informed human judgments. In particular, the model must find the broad trends and facts known to be true by the practitioner of the domain. Without such support in finding the known, topic models have limited value in discovering the unknown --- i.e. quantifying known trends or discovering unexpected ones.
+
+Ramage2009
+
+<!--# 2do: ver citation -->
+
+<!--# 2do: meter algo de Grimmer & Stewart, 2013; Lindstedt, 2019)// (Valdez , Picket & Goodson, 2018; Murakami, et al., 2017).  -->
+
+In any cases, we should select a few representative documents to perform qualitative analysis.
+
+Let's create a small sample, by identifying documents with highest probability in each topic using `tm_gamma`. Let us assume that with 5 documents we can perform our analyses (in qualitative samples, this number is not an *a priori* decission).
+
+```{r}
+
+tm_gamma %>% 
+  group_by(topic) %>%
+  slice_max(gamma, n=5)
+
+```
+
+<!--# 2do: llevar al ppt la discusion de outliers y topicos en contexto -->
+
+#### Model validation
+
+At the time of validation, we seek to find out how solid our interpretation of the model is.
+
+One way to validate our model and inferences, we could propose some **content and metadata** **hypothesis** for further exploration. This could be data not used in the model construction, e.g., document publication date, or publisher information).
+
+For its part, **statistical validation** seeks to measure how reliable the model is, in terms of how consistent its results are.
+
+*Perplexity* is the most used measure in this type of tests. This is a metric that results from a held-out likelihood test in which, once the model has been trained with certain parameters, it is used to predict the topics of "new" documents for the model, that is, documents that were not part of the model construction. of the corpus with which it was trained. This generally is done for estimating different models with different parameters, like the number of topics (K). We could separate some documents from our corpus to have "new" documents, and train several TM models with different values of K; finally, we are going to plot the results of the perplexity tests. Since perplexity is a measure of inconsistency, a lower value is appropriate. Generally these values are achieved at a higher K.
+
+# (5) A few notes on Corpus building
+
 xxx
 
--   Grimmer, J., & Stewart, B. M. (2013). Text as data: The promise and pitfalls of automatic content analysis methods for political texts. Political Analysis, 21(3), 267--297. <https://doi.org/10.1093/pan/mps028>
+xxx
 
--   Jacobi, C., van Atteveldt, W., & Welbers, K. (2016). Quantitative analysis of large amounts of journalistic texts using topic modeling. Digital Journalism, 4(1), 89--106. <https://doi.org/10.1080/21670811.2015.1093271>
-
-# (5) Corpus building
+### Web scrapping
 
 xxx
+
+### Scientific literature databases
+
+xxx
+
+### Legal databases
+
+<https://eur-lex.europa.eu/homepage.html?locale=pl>
+
+<https://curia.europa.eu/jcms/jcms/Jo1_6308/>
+
+<https://www.echr.coe.int/Pages/home.aspx?p=caselaw/HUDOC&c=>
+
+<https://uncitral.un.org/sites/uncitral.un.org/files/media-documents/uncitral/en/facts_about_clout_eng_ebook.pdf>
+
+<https://www.ilo.org/inform/online-information-resources/databases/terminology/lang--en/index.htm>
+
+<https://op.europa.eu/pl/web/eu-vocabularies/det>
+
+<https://op.europa.eu/pl/web/eu-vocabularies/dataset/-/resource?uri=http://publications.europa.eu/resource/dataset/eurovoc>
+
+<https://unimelb.libguides.com/c.php?g=929605&p=6716619>
+
+<https://www.icj-cij.org/en/cases>
+
+<https://www.icc-cpi.int/cases>

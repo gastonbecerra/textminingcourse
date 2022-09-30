@@ -4,53 +4,43 @@ En este tutorial vamos a explorar distintas maneras de construir un dataset.
 
 <!-- * Applicaciones, gamificación y experimentos digitales -->
 
-1. Vamos a conectar con una API (Wikipedia) de la manera más básica;
-2. Vamos a conectar con una API (Twitter) usando el paquete `rtweet`;
-3. Mencionamos las limtaciones de la API de Facebook;
-4. Hacemos *scrapping* para recuperar contenido de páginas web tipo OJS.
+1.  Vamos a conectar con una API (Wikipedia) de la manera más básica;
+2.  Vamos a conectar con una API (Twitter) usando el paquete `rtweet`;
+3.  Mencionamos las limtaciones de la API de Facebook;
+4.  Hacemos *scrapping* para recuperar contenido de páginas web tipo OJS.
 
 Al final listamos algunos otros recursos donde se pueden obtener datasets.
 
-
-
 ## APIs
 
-Un API (Application Programming Interface) es una "puerta de entrada" que algunas aplicaciones ofrecen para interatuar con sus datos y sus funciones de forma ordenada. 
-Se puede utilizar una API para recuperar contenido de las bases de datos de la aplicación (e.g., obtener tweets de Twitter) de forma legal y dentro de las condiciones de acceso y uso que la aplicación impone. 
+Un API (Application Programming Interface) es una "puerta de entrada" que algunas aplicaciones ofrecen para interatuar con sus datos y sus funciones de forma ordenada. Se puede utilizar una API para recuperar contenido de las bases de datos de la aplicación (e.g., obtener tweets de Twitter) de forma legal y dentro de las condiciones de acceso y uso que la aplicación impone.
 
-Generalmente, las API se utilizan a través del protocolo HTTP, de modo que se puede interactuar con ella a través desde distintos lenguajes y/o programas que nos permita hacer *requests* (acciones para leer, enviar y manipular datos) por internet, ya sea un navegador como Chrome, un programa específico como [Postman](https://learning.postman.com/), o R. 
+Generalmente, las API se utilizan a través del protocolo HTTP, de modo que se puede interactuar con ella a través desde distintos lenguajes y/o programas que nos permita hacer *requests* (acciones para leer, enviar y manipular datos) por internet, ya sea un navegador como Chrome, un programa específico como [Postman](https://learning.postman.com/), o R.
 
 Cada API tiene su dirección URL, y una forma particular de requerir parámetros por medio de ella. Un ejemplo de un request simple que devuelve la información de una foto de Facebook es la siguiente URL, que se puede consultar desde el navegador: <https://graph.facebook.com/facebook/picture?redirect=false>.
 
 <!-- `http://url-de-la-api.com/objeto/accion?parametro=valor&parametro=valor`. -->
 
-El *response*  o resultado del request es sólo datos, es decir, contenido de la aplicación sin los elementos de diseño o interfaces. 
-Generalmente los datos se escriben en un formato flexible, como XML o JSON. 
-En ocasiones, hay algunos metadatos en los encabezados de las responses que indican cómo resultó nuestros request por medio de un código (e.g., un status 200 significa que el request se procesó OK, mientras un 404 indica que el recurso que buscamos no está disponible).
+El *response* o resultado del request es sólo datos, es decir, contenido de la aplicación sin los elementos de diseño o interfaces. Generalmente los datos se escriben en un formato flexible, como XML o JSON. En ocasiones, hay algunos metadatos en los encabezados de las responses que indican cómo resultó nuestros request por medio de un código (e.g., un status 200 significa que el request se procesó OK, mientras un 404 indica que el recurso que buscamos no está disponible).
 
-Muchas APIs requieren una autenticación para poder procesar un request, esto les permite regular el acceso a la información. Para ello, en algunos casos basta con proveer algunas credenciales que obtenemos al registrarnos como usuarios de la aplicación. En otros casos, como en las APIs de Facebook y Twitter, además es necesario registrarse como "desarrollador" y  registrar una "aplicación" para la cual se piden ciertos permisos particulares, como leer o postear contenido. Como resultado de este registro generalmente obtenemos algunas "llaves" que incluimos en nuestros requests como parámetros. Otras APIs, como la de Google, tienen algunos servicios pagos y requieren que registremos una tarjeta de crédito en nuestro perfil, para cobrarnos por consumo.
+Muchas APIs requieren una autenticación para poder procesar un request, esto les permite regular el acceso a la información. Para ello, en algunos casos basta con proveer algunas credenciales que obtenemos al registrarnos como usuarios de la aplicación. En otros casos, como en las APIs de Facebook y Twitter, además es necesario registrarse como "desarrollador" y registrar una "aplicación" para la cual se piden ciertos permisos particulares, como leer o postear contenido. Como resultado de este registro generalmente obtenemos algunas "llaves" que incluimos en nuestros requests como parámetros. Otras APIs, como la de Google, tienen algunos servicios pagos y requieren que registremos una tarjeta de crédito en nuestro perfil, para cobrarnos por consumo.
 
-Por suerte, para algunas aplicaciones contamos con paquetes de R para interactuar con sus APIs. Estos paquetes se encargan de formatear los request de pedido de información, incluyendo las claves de seguridad que hayamos obtenido, y/o leer los datos que nos devuelven en un formato compatible con R, como un dataframe. 
-
+Por suerte, para algunas aplicaciones contamos con paquetes de R para interactuar con sus APIs. Estos paquetes se encargan de formatear los request de pedido de información, incluyendo las claves de seguridad que hayamos obtenido, y/o leer los datos que nos devuelven en un formato compatible con R, como un dataframe.
 
 ### API de Wikipedia (Sin paquetes!)
 
-La primera API que vamos a explorar es la de Wikipedia. 
-Nos interesa esta API por 2 razones: (1) no requiere autenticación... por lo menos para el tipo de request que vamos a estar haciendo; 
-y (2) no hay paquete de R para interactuar con ella, asi que vamos a usarla "sin rueditas".... aunque vale la aclaración, si vamos a usar un paquete para hacer requests por HTTP, llamado `httr`.
+La primera API que vamos a explorar es la de Wikipedia. Nos interesa esta API por 2 razones: (1) no requiere autenticación... por lo menos para el tipo de request que vamos a estar haciendo; y (2) no hay paquete de R para interactuar con ella, asi que vamos a usarla "sin rueditas".... aunque vale la aclaración, si vamos a usar un paquete para hacer requests por HTTP, llamado `httr`.
 
-Particularmente: 
+Particularmente:
 
-1. vamos a hacer un request, componiendo una URL y llamandola por GET (un método del protocolo HTTP, que usás todo el tiempo para navegar);
-2. vamos a leer el response, que está en formato JSON, y vamos a ver cómo lo podemos convertir a un formato más cómodo con R.
+1.  vamos a hacer un request, componiendo una URL y llamandola por GET (un método del protocolo HTTP, que usás todo el tiempo para navegar);
+2.  vamos a leer el response, que está en formato JSON, y vamos a ver cómo lo podemos convertir a un formato más cómodo con R.
 
 Antes que nada, tenemos que saber qué clase de requests se pueden hacer (qué puedo preguntarle a la API). Todas las aplicaciones tienen una *API Reference* que aclara esto; otras, mas copadas, tienen una *API Explorer* que permite "componer" con formularios los parámetros de los requests y explorar los resultados. Wikipedia, por suerte es uno de ellos: <https://es.wikipedia.org/wiki/Especial:Zona_de_pruebas_de_la_API>.
 
 Lo primero que vamos a hacer es buscar entradas que incluyan las palabras "big data".
 
-Para hacer este request es necesario conocer como componer la URL. En el caso de Wikipedia esto se compone por una URL base (`https://es.wikipedia.org/w/api.php?`) seguido de la acción que nos interesa realizar: "query" porque vamos a buscar páginas (`&action=query`). 
-Esta acción requiere un criterio (`&srsearch=big%20data`) y que especifiquemos qué devolver y en qué formato (`&list=search&format=json`): 
-<https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=big%20data&format=json>
+Para hacer este request es necesario conocer como componer la URL. En el caso de Wikipedia esto se compone por una URL base (`https://es.wikipedia.org/w/api.php?`) seguido de la acción que nos interesa realizar: "query" porque vamos a buscar páginas (`&action=query`). Esta acción requiere un criterio (`&srsearch=big%20data`) y que especifiquemos qué devolver y en qué formato (`&list=search&format=json`): <https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=big%20data&format=json>
 
 ```{r wiki1, message=FALSE, warning=FALSE}
 library(tidyverse)
@@ -97,7 +87,6 @@ Veamos un pedazo de la respuesta, que se encuentra en formato JSON:
             },
     ...
 
-
 Este contenido se puede acceder a través del `content` del objeto generado por `httr::GET`. Esta función convierte el JSON es una lista, es decir, una colección de objetos en R.
 
 Esta lista tiene 4 elementos: `batchcomplete` y `continue` se usan para paginar los resultados; `query` que a su vez tiene 2 elementos: primero informa cuantos resultados hubo; y despues en `search` incluye los resultados. Arriba mostramos 2 resultados, que incluyen un título, un pageid, y otra info.
@@ -127,10 +116,9 @@ glimpse(resultados_df) # veamos la tabla armada
 
 ```
 
-Ahora vamos a usar estos valores para recuperar los contenidos de las páginas. 
+Ahora vamos a usar estos valores para recuperar los contenidos de las páginas.
 
-Para esta acción la URL base es la misma que veniamos usando (`https://es.wikipedia.org/w/api.php?`) seguido de la acción que nos interesa realizar: "parse" porque le pedimos que imprima una pagina (`&action=parse`). 
-Esta acción requiere un criterio (`&page=`) con el título que querramos recuperar, y finalmente, que especifiquemos qué en qué formatos (`&list=search&format=json`). 
+Para esta acción la URL base es la misma que veniamos usando (`https://es.wikipedia.org/w/api.php?`) seguido de la acción que nos interesa realizar: "parse" porque le pedimos que imprima una pagina (`&action=parse`). Esta acción requiere un criterio (`&page=`) con el título que querramos recuperar, y finalmente, que especifiquemos qué en qué formatos (`&list=search&format=json`).
 
 Veamos los títulos que podemos recuperar y compongamos la URL con los primeros.
 
@@ -160,14 +148,17 @@ Lo que vemos es el código fuente (HTML) de esta página: <https://es.wikipedia.
 ### API de Twitter (con rtweet)
 
 <!-- https://www.rdocumentation.org/packages/rtweet/versions/0.7.0/topics/search_tweets -->
+
 <!-- https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets -->
+
 <!-- https://www.earthdatascience.org/courses/earth-analytics/get-data-using-apis/use-twitter-api-r/ -->
+
 <!-- https://medium.com/@traffordDataLab/exploring-tweets-in-r-54f6011a193d -->
 
 Twitter requiere generar una *aplicacion* y registrarla en una *cuenta de desarrollador*. Para es necesario:
 
-1. Registrarse en [Twitter developers](https://developer.twitter.com/en) y aplicar al acceso: https://developer.twitter.com/en/apply-for-access
-2. Crear un *proyecto*: https://developer.twitter.com/en/portal/projects/new
+1.  Registrarse en [Twitter developers](https://developer.twitter.com/en) y aplicar al acceso: https://developer.twitter.com/en/apply-for-access
+2.  Crear un *proyecto*: https://developer.twitter.com/en/portal/projects/new
 
 Para esto te va a pedir que definas: tipo de proyecto (academico), descripcion (objetivos, posta), crear/vincularla a una app (va a pedir solo el nombre). Twitter aclara: *Apps are where you get your access keys and tokens and set permissions*.
 
@@ -175,11 +166,10 @@ Luego, vamos a ir a la pagina de app que acabamos de crear, a buscar las credenc
 
 (Estamos usando el metodo de generar un *token*... pero hay otros: https://cran.r-project.org/web/packages/rtweet/vignettes/auth.html)
 
-3. Vamos a configurar las app permissions, que habilitan a distintas acciones, como buscar y leer tweets, o postear.
-4. Vasmo a configurar credenciales, yendo a "Keys and tokens"
+3.  Vamos a configurar las app permissions, que habilitan a distintas acciones, como buscar y leer tweets, o postear.
+4.  Vasmo a configurar credenciales, yendo a "Keys and tokens"
 
-Aquí vamos a buscar "API Key and Secret" y "Access Token and Secret". Ambos tienen 2 claves: key y secret key. 
-
+Aquí vamos a buscar "API Key and Secret" y "Access Token and Secret". Ambos tienen 2 claves: key y secret key.
 
 ```{r eval=FALSE}
 
@@ -191,7 +181,6 @@ access_token <- "9551451262-wK2EmA942kxZYIwa5LMKZoQA4Xc2uyIiEwu2YXL"
 access_token_secret <- "9vpiSGKg1fIPQtxc5d5ESiFlZQpfbknEN1f1m2xe5byw7"
 
 ```
-
 
 ```{r include=FALSE, eval=TRUE}
 
@@ -245,14 +234,16 @@ Sobre los límites del API de Twitter: https://developer.twitter.com/en/docs/twi
 ### Una nota sobre la API de Facebook
 
 <!-- https://www.doctormetrics.com/facebook-y-r-statistics-para-el-social-mining/ -->
+
 <!-- https://community.rstudio.com/t/how-to-analyze-your-facebook-friends-network-with-r/29403 -->
+
 <!-- https://developers.facebook.com/ads/blog/post/v2/2018/05/15/facebook-reach-frequency-api/ -->
 
-Facebook impuso serias limitaciones a la información que es posible consultar via API. 
+Facebook impuso serias limitaciones a la información que es posible consultar via API.
 
 Al igual que Twitter, Facebook requiere registrar una app. Pero, los tipos de apps que se sugieren y los permisos a otorgar, son indicativos del poco acceso que se puede obtener a los contenidos de la red social para investigación, dejando la API mayormente para interactuar y controlar campañas y negocios: <https://developers.facebook.com/docs/development/create-an-app/app-dashboard/app-types>.
 
-Lo más cercano que hay al *feed* de contenido social publicado por los usuarios, se limita a las páginas de las empresas, para lo que hay que tener una cuenta de negocios asociada a la página, y además someterse a una revisión de la app.  <https://developers.facebook.com/docs/permissions/reference/pages_read_user_content/>
+Lo más cercano que hay al *feed* de contenido social publicado por los usuarios, se limita a las páginas de las empresas, para lo que hay que tener una cuenta de negocios asociada a la página, y además someterse a una revisión de la app. <https://developers.facebook.com/docs/permissions/reference/pages_read_user_content/>
 
 En contrapartida, Facebook ofrece algunos datasets: <https://research.fb.com/data/>
 
@@ -260,20 +251,18 @@ Mas info: <https://theconversation.com/facebooks-data-lockdown-is-a-disaster-for
 
 Como resultado de estos cambios, uno de los paquetes más usados para interactuar con el API de Facebook para R (<https://github.com/pablobarbera/Rfacebook>) ya no se mantiene más...
 
-
 ## Web Scraping
 
 El proceso de recuperar contenido de manera automática a partir de páginas web se conoce como *Web Scraping*.
 
 Para poder recuperar contenido de páginas web hay *2 requisitos*: tenemos que averiguar:
 
-1. las URLs de las páginas que queremos leer: en muchos casos pueden ser URLs dinámicas, con parámetros y valores, que podemos manipular.
-2. la estructura HTML de la página donde está el contenido: como probablemente no nos interese *todo el contenido de la página* (logos,textos,botones) sino sólo algunos textos, tenemos que poder identificar en qué parte del template de la página se insertan los contenidos que nos interesa, para así poder mapearlos.
-
+1.  las URLs de las páginas que queremos leer: en muchos casos pueden ser URLs dinámicas, con parámetros y valores, que podemos manipular.
+2.  la estructura HTML de la página donde está el contenido: como probablemente no nos interese *todo el contenido de la página* (logos,textos,botones) sino sólo algunos textos, tenemos que poder identificar en qué parte del template de la página se insertan los contenidos que nos interesa, para así poder mapearlos.
 
 Ambas informaciones varían de sitio en sitio y de sistema en sistema. Para lo primero conviene entender lo básico de la sintáxis de las URLs: <https://en.wikipedia.org/wiki/URL#Syntax>; para lo segundo, comprender lo básico de HTML markup <https://en.wikipedia.org/wiki/HTML#Markup>, incluyendo como tomar los identificadores de un pedazo de sitio <https://towardsdatascience.com/web-scraping-in-r-using-rvest-and-selectorgadget-5fc5124547e>, algo para lo que el Dev.Tools del Chrome (F12 navegando la página) puede ser muy util.
 
-### Webscraping resultados de búqsqueda de OJS 
+### Webscraping resultados de búqsqueda de OJS
 
 Open Journal Systems (OJS) es un sistema de manejo editorial para revistas académicas. Es usado mayormente por universidades y por revistas que no tienen acuerdos editoriales con grandes empresas.
 
@@ -290,7 +279,7 @@ sitios_ojs = c(
 
 ```
 
-Nuestro **primer requisito** es averiguar las URLs de las páginas que queremos leer. 
+Nuestro **primer requisito** es averiguar las URLs de las páginas que queremos leer.
 
 Recordemos que queremos encontrar sólo artículos que contengan "big data", de modo que necesitamos utilizar la función de búsqueda de cada OJS. Luego de realizar algunas búsqueda "a mano" y obsevar cómo el OJS construye sus URLs (<https://docs.pkp.sfu.ca/dev/documentation/en/architecture-routes>), podemos armar las de los resultados de búsqueda:
 
@@ -305,13 +294,13 @@ url_scrapear
 
 ```
 
-Ya tenemos listo el primer requisito: las URLs de las páginas a leer! 
+Ya tenemos listo el primer requisito: las URLs de las páginas a leer!
 
 Nuestro **segundo requisito** es encontrar algún patrón para identificar el pedazo de contenido que nos interesa. En nuestro caso, se trata de los links a los artículos, de modo que, otra vez, tenemos que ver cómo se componen las URLs del OJS. Según su convención, los artículos en OJS tienen una URL con esta estructura: url_sitio + "/article/view/" + id_artículo. Con XPath, podemos escribir una expresión que filtre este tipo de link: `//a[contains(@href, "/article/view/")]`.
 
-Ya tenemos listo el primer requisito: el patrón para identificar el contenido! 
+Ya tenemos listo el primer requisito: el patrón para identificar el contenido!
 
-Ahora vamos a podemos comenzar con el scraping. Aquí vamos a ayudarnos con el paquete `rvest`. 
+Ahora vamos a podemos comenzar con el scraping. Aquí vamos a ayudarnos con el paquete `rvest`.
 
 ```{r}
 
@@ -368,25 +357,20 @@ Además de recuperar metadatos del HTML de los OJS, el paquete permite:
 
 ```
 
-
 ## Recursos
 
 ### Listado de APIs:
 
-* *LISTADO APIS*: https://github.com/public-apis/public-apis
-* *API SPOTIFY*: https://developer.spotify.com/documentation/web-api/
-* *API WIKIPEDIA*: https://en.wikipedia.org/wiki/Help:Creating_a_bot#APIs_for_bots
+-   *LISTADO APIS*: https://github.com/public-apis/public-apis
+-   *API SPOTIFY*: https://developer.spotify.com/documentation/web-api/
+-   *API WIKIPEDIA*: https://en.wikipedia.org/wiki/Help:Creating_a\_bot#APIs_for_bots
 
 ### Repositorios de datasets:
 
-* *PORTAL DATASETS GOB.AR.*: https://datos.gob.ar/
-* *PORTAL DATASETS CABA*: https://data.buenosaires.gob.ar/
-* *DATASETS FACEBOOK*: https://research.fb.com/data/
+-   *PORTAL DATASETS GOB.AR.*: https://datos.gob.ar/
+-   *PORTAL DATASETS CABA*: https://data.buenosaires.gob.ar/
+-   *DATASETS FACEBOOK*: https://research.fb.com/data/
 
 ### Herrameintas de Scraping:
 
-* *GOOGLE SHEETS*: https://www.youtube.com/watch?v=OygCWEmNjyw
-
-
-
-
+-   *GOOGLE SHEETS*: https://www.youtube.com/watch?v=OygCWEmNjyw
