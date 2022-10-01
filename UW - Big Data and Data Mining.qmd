@@ -29,7 +29,9 @@ The goal of this lesson is to introduce the **data analysis workflow**. In parti
 
 2.  explore and become familiar with the data and its structure;
 
-3.  transform the data to clean it and have the optimal structure for our analyses.
+3.  use the *tidy* structure for our tables;
+
+4.  transform the data to clean it and have the optimal structure for our analyses.
 
 You can check more on these topics here:
 
@@ -49,7 +51,7 @@ With this dataset, and through the indicated tasks, we are going to try to answe
 
 The way in which we will analyze the data loosely follows the steps of the "prototypical analysis" from the Social representations theory by S. Moscovici and J. C. Abric.
 
-### Load data and resources
+## Load data and resources
 
 The first thing we will do is load some **packages** that will provide us with a set of functions that we will use throughout the exercise. Remember that a function is a sequence of commands that are applied to an object that is passed to the function, referencing it between its parentheses. For example, we will use the `library()` function and library names to enable the `readr` functions to import data, and the `tidyverse` set of libraries to manipulate and display.
 
@@ -78,11 +80,11 @@ We are interested in keeping this data as an object in memory, since we will be 
 
 ```{r}
 
-word_associations <- readr::read_csv(file = "https://raw.githubusercontent.com/gastonbecerra/curso-intro-r/main/data/asociaciones.csv")
+word_associations <- readr::read_csv(file = "https://raw.githubusercontent.com/gastonbecerra/textminingcourse/main/data/big_data_word_association.csv")
 
 ```
 
-### Explore the data
+## Explore the data
 
 The goal of **data exploration** is to familiarize ourselves with the structure of the data, and transform it in a way that allow us to carry out our analyses. Usually, this is where the **cleaning steps** are decided.
 
@@ -108,7 +110,7 @@ summary(word_associations)
 
 You can also explore the entire dataset using `view()`. Although not needed for this exercise, in larger datasets you could use some packagess to help you on the exploratory part. I recommend to take a look at `skimr`.
 
-Now, let's check our dataset structure with a `glimpse`. Our table has the words that the participants responded to in the `palabra` column, the order in which those words were entered by the participant in `orden`, and a valuation of that idea in `valoracion`. The `id` column allow us to bind the records together vertically because our dataset has severalrecords (usually 5) per participant: we have 1 record per word associated to big data. This is called a **longer** (rather than **wider**) dataset, and the action to transform this structure is called **pivoting**. More on this here: <https://r4ds.had.co.nz/tidy-data.html#pivoting>
+Now, let's check our dataset structure with a `glimpse`. Our table has the words that the participants responded to in the `word` column, the order in which those words were entered by the participant in `order_of_evocation`, and a valuation of that idea in `evaluation`. The `id` column allow us to bind the records together vertically because our dataset has several records (usually 5) per participant: we have 1 record per word associated to big data. This is called a **longer** (rather than **wider**) dataset, and the action to transform this structure is called **pivoting**. More on this here: <https://r4ds.had.co.nz/tidy-data.html#pivoting>
 
 ### Transform, visualize and clean
 
