@@ -1,20 +1,15 @@
 ---
-title: "UW - Big Data and Data Mining / Data analysis practice"
+title: "Big Data and Data Mining (including Text Mining) | Data analysis practice"
+format:
+  html:
+    toc: false
+  pdf:
+    toc: true
 ---
 
-# Course presentation and materials
+This document is a brief companion to the practical part of the course *Big Data and Data Mining (including Text Mining)*.
 
-This course proposes a critical approach to the technological, social and cultural phenomenon of big data, together with a practical introduction to data mining and data analysis with R.
-
-Course contents aim to enable students to:
-
--   interrogate big data as a technological, social and cultural phenomenon, and recognize key notions in corpus-assisted discourse analysis;
-
--   introduce to the working methodology of data analysis and the basics of text mining techniques in R language
-
-### About this document
-
-This document is a brief companion to the practical part of the course. It is mainly based on the following resources:
+It is mainly based on the following resources that you can check for further references:
 
 -   Wickham, H., & Grolemund, G. (2016). R for Data Science. O'Reilly Media. <http://r4ds.had.co.nz/>
 
@@ -22,13 +17,11 @@ This document is a brief companion to the practical part of the course. It is ma
 
 <!--# 2do: tengo que esconder comentarios y warnings y hacer menos conciso, y vincular el ppt -->
 
-# (1) Introduction to R & RStudio
-
-We'll use the **R** statistical/programming language, **RStudio** as development environment (you can also use Visual Studio Code), and some **packages** that will pre-install some handful functions for us.
+We'll use the **R** statistical/programming language, **RStudio** as development environment (you can also use Visual Studio Code), and some **packages** that will extend some handful functions for us.
 
 To download and install R and RStudio, follow these instructions: <https://r4ds.had.co.nz/introduction.html#prerequisites>
 
-# (2) Data analysis with R
+# (1) Data analysis with R
 
 The goal of this lesson is to introduce the **data analysis workflow**. In particular, we will learn to:
 
@@ -44,7 +37,7 @@ You can check more on these topics here:
 
 <https://r4ds.had.co.nz/transform.html>
 
-We will work with a dataset of free associations to the word "Big data". This is a dataset built from a brief survey with the following instructions:
+We will work with a dataset of free associations to the word "Big data". This dataset was built from a brief survey with the following instructions:
 
 > *Please tell us what words or phrases come to mind when you think of "big data". We also ask you to please tell us if these ideas that you have just introduced correspond to something that you value positively (something you like) or negatively (something you dislike)*
 
@@ -69,6 +62,8 @@ install.packages("tidyverse")
 ```
 
 ```{r}
+#| warning: false
+#| message: false
 
 library(readr) 
 library(tidyverse) 
@@ -280,7 +275,7 @@ word_associations_frequency %>%
 
 ```
 
-# (3) Introduction to NLP and sentiment (lexicon) analysis
+# (2) Introduction to NLP and sentiment (lexicon) analysis
 
 The goal of these lessons is to introduce ourselves to natural language processing (NLP), and to a particular task in that field: sentiment or polarity analysis.
 
@@ -512,7 +507,7 @@ The `txt_sentiment` parameters are:
 
 -   `polarity_terms` is a dataframe that contains 2 columns: `terms` and `polarity`, which can be `1` or `-1`. To create this we will use again a *lexicon* from `textdata`
 
--   `polarity_negators` , `polarity_amplifiers`, `polarity_deamplifiers` are vectors of words that negate, increase or decrease the orientation of words (for example, if we have "good" in the lexicon with a rating of 1, and "very" inside the amplifiers, "very good " could assume a higher rating than the one given by the lexicon, with a factor that is made explicit in amplifier_weight). The window of words in which these words are searched is configured with `n_before` and `n_after`.
+-   `polarity_negators` , `polarity_amplifiers`, `polarity_deamplifiers` are vectors of words that negate, increase or decrease the orientation of words (for example, if we have "good" in the lexicon with a rating of 1, and "very" inside the amplifiers, "very good" could assume a higher rating than the one given by the lexicon, with a factor that is made explicit in amplifier_weight). The window of words in which these words are searched is configured with `n_before` and `n_after`.
 
 Let's prepare our lexicons and other tables.
 
@@ -574,7 +569,7 @@ sentiment_bd_functions$overall %>%
 
 Makes sense, right?
 
-# (4) Topic modeling
+# (3) Topic modeling
 
 In this exercise we will focus on topic modeling, an *unsupervised learning* technique that seeks to build topics or themes based on the distribution and correlation of words in a set of documents.
 
@@ -614,7 +609,7 @@ There are several implementations of topic modeling. We will be using the most c
 
 > Topic models draw on the notion of distributional semantics and make use of the so-called bag of words assumption, i.e., the ordering of words within each document is ignored. To grasp the thematic structure of a document, it is sufficient to describe its distribution of words
 
-Maier, Daniel, A. Waldherr, P. Miltner, G. Wiedemann, A. Niekler, A. Keinert, B. Pfetsch, et al. 2018. \"Applying LDA Topic Modeling in Communication Research: Toward a Valid and Reliable Methodology.\" *Communication Methods and Measures* 12 (2-3): 93--118. <https://doi.org/10.1080/19312458.2018.1430754>.
+Maier, Daniel, A. Waldherr, P. Miltner, G. Wiedemann, A. Niekler, A. Keinert, B. Pfetsch, et al. 2018. "Applying LDA Topic Modeling in Communication Research: Toward a Valid and Reliable Methodology." *Communication Methods and Measures* 12 (2-3): 93--118. <https://doi.org/10.1080/19312458.2018.1430754>.
 
 <!--# 2do: voy a tener que ver el citado -->
 
@@ -624,7 +619,7 @@ This model generates topics by proposing a certain distribution of all the words
 
 ![](images/paste-BC8B22A6.png)
 
-Blei, David. 2012. \"Probabilistic topic models.\" *Communications of the ACM* 55 (4): 77. <https://doi.org/10.1145/2133806.2133826>.
+Blei, David. 2012. "Probabilistic topic models." *Communications of the ACM* 55 (4): 77. <https://doi.org/10.1145/2133806.2133826>.
 
 What is interesting about this way of understanding topics operational is that each topic can be understood as a semantic field, a set of words that are usually correlated in different documents. Then, when analyzing these results, we will try to infer a theme from the words that contribute the most to each topic. E.g., we could infer from a topic that the terms "sale", "product" and "buyer" contribute strongly to the topic "trade". According to one of the model's authors, the interpretability of most topics is a result of "the statistical structure of the language and how it interacts with LDA-specific probabilistic assumptions" (D. Blei, 2012, p. 79).
 
@@ -632,7 +627,7 @@ At the same time, the words are not exclusive to one topic but cross all topics 
 
 The utility of this technique for our purposes has been detailed in this paper:
 
-Jacobi, Carina, Wouter van Atteveldt, and Kasper Welbers. 2016. \"Quantitative analysis of large amounts of journalistic texts using topic modelling.\" *Digital Journalism* 4 (1): 89--106. <https://doi.org/10.1080/21670811.2015.1093271>.
+Jacobi, Carina, Wouter van Atteveldt, and Kasper Welbers. 2016. "Quantitative analysis of large amounts of journalistic texts using topic modelling." *Digital Journalism* 4 (1): 89--106. <https://doi.org/10.1080/21670811.2015.1093271>.
 
 ### Text pre-processing
 
@@ -715,7 +710,7 @@ If we convert the words on these sentences to *lemmas* and filter important word
 Let's see what these vectorized sentences would look like:
 
 | Doc | bigdata | being | technical | analyze | manipulate | infer | rate | contagion | flu |
-|:---:|:-------:|:-----:|:---------:|:-------:|:----------:|:-----:|:----:|:---------:|:---:|
+|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
 |  1  |    1    |   1   |     1     |    1    |     1      |   0   |  0   |     0     |  0  |
 |  2  |    1    |   0   |     0     |    1    |     0      |   1   |  1   |     1     |  1  |
 
@@ -863,7 +858,7 @@ For its part, **statistical validation** seeks to measure how reliable the model
 
 *Perplexity* is the most used measure in this type of tests. This is a metric that results from a held-out likelihood test in which, once the model has been trained with certain parameters, it is used to predict the topics of "new" documents for the model, that is, documents that were not part of the model construction. of the corpus with which it was trained. This generally is done for estimating different models with different parameters, like the number of topics (K). We could separate some documents from our corpus to have "new" documents, and train several TM models with different values of K; finally, we are going to plot the results of the perplexity tests. Since perplexity is a measure of inconsistency, a lower value is appropriate. Generally these values are achieved at a higher K.
 
-# (5) A few notes on Corpus building
+# (4) A few notes on Corpus building
 
 xxx
 
@@ -871,7 +866,113 @@ xxx
 
 ### Web scrapping
 
-xxx
+The process of automatically retrieving content from web pages is known as Web Scraping. In order to retrieve content from web pages there are 2 requirements to find out:
+
+-   the URLs of the pages we want to read: in many cases they can be dynamic URLs, with parameters and values, that we can manipulate.
+
+-   the HTML structure of the page where the content is: since we are probably not interested in all the content of the page (logos, texts, buttons) but only some texts, we have to be able to identify in which part of the page template the contents are inserted that interests us, in order to map them.
+
+Both pieces of information vary from site to site and from system to system. For the first thing, it is convenient to understand the basics of the URL syntax: <https://en.wikipedia.org/wiki/URL#Syntax;> for the second, understand the basics of HTML markup <https://en.wikipedia.org/wiki/HTML#Markup>, including how to grab identifiers from a piece of site, something for which the Chrome Dev.Tools (F12 navigating the page) can be very useful.
+
+More info: [https://towardsdatascience.com/web-scraping-in- r-using-rvest-and-selectorgadget-5fc5124547e](https://towardsdatascience.com/web-scraping-in-%20r-using-rvest-and-selectorgadget-5fc5124547e)
+
+#### Parsing OJS
+
+Open Journal Systems (OJS) is an editorial management system for academic journals. It is used mostly by universities and journals that do not have publishing agreements with large companies.
+
+In this exercise we are going to try to recover the links to the articles on "big data" that are published in a list of journals that use the OJS system:
+
+<!--# 2do: buscar otros sitios en inglés -->
+
+```{r}
+
+ojs_sites = c(
+  "http://ojs.sociologia-alas.org/index.php/CyC/",
+  "http://ediciones.ucsh.cl/ojs/index.php/TSUCSH/",
+  "http://revistamexicanadesociologia.unam.mx/index.php/rms/"
+  )
+
+```
+
+Our first requirement is to find out the URLs of the pages we want to read.
+
+Remember that we want to find only articles that contain "big data", so we need to use the search function of each OJS. After doing some searching "by hand" and seeing how OJS builds its URLs (<https://docs.pkp.sfu.ca/dev/documentation/en/architecture-routes>), we can put together the ones for the search results:
+
+```{r}
+
+criteria <- "%22big+data%22"
+urls_to_scrape <- paste( ojs_sites , # vamos a contatenar pedazos de textos
+                       "search/search?query=",
+                       criteria,
+                       sep = "")
+urls_to_scrape
+
+```
+
+We already have the first requirement ready: the URLs of the pages to read!
+
+Our second requirement is to find some pattern to identify the piece of content that interests us. In our case, it is the links to the articles, so, again, we have to see how the OJS URLs are composed. According to its convention, articles in OJS have a URL with this structure: site_url + "/article/view/" + article_id. With XPath, we can write an expression that filters this type of link: //a\[contains(\@href, "/article/view/")\].
+
+So, we have the second requirement ready: the pattern to identify the content!
+
+Now to do the task we will create our own function, which will go through the `urls_to_scrape` and read and parse their content, with the help of the `rvest` package.
+
+```{r}
+
+library(rvest)
+
+get_articles <- function( url ) {
+  url_con <- url(url, "rb") # open a connection
+  webpage <- xml2::read_html(url_con) # read the html page
+  close(url_con) # close connection
+  xpath <- '//a[contains(@href, "/article/view/")]' # patter to identify links directing to OJS articles
+  links <- rvest::html_nodes(webpage, xpath = xpath) %>% # look for links
+    html_attr('href') %>% # keep only URL
+    return()
+}
+
+article_urls <- character()
+
+for (i in 1:length(urls_to_scrape)) { # loop for urls_to_scrape
+  message("scraping ",urls_to_scrape[i]) # show in screen which url about to parse
+  article_urls <- c(article_urls, get_articles(urls_to_scrape[i]))
+}
+
+article_urls
+
+```
+
+We have the links of the articles where it says "big data" in different journals. Now, we will surely be interested in doing a new scraping process to recover some metadata of those articles, or retrieving the full-content from a specific *galley* (publishing elements and options, like article in PDF, or auxiliary tables).
+
+E.g., we could look for *keywords* in the metadata of the articles. Let's use the `ojsr` package instead.
+
+```{r}
+
+library(ojsr)
+
+metadata <- ojsr::get_html_meta_from_article(input_url = article_urls, verbose = TRUE)
+
+glimpse(metadata)
+
+metadata %>% 
+  filter(
+      meta_data_name=="citation_keywords", 
+      trimws(meta_data_content)!=""
+    ) %>% # filtering keywords
+  mutate(keyword = trimws(tolower(meta_data_content))) %>%
+  count(keyword, sort = TRUE) 
+```
+
+In addition to retrieving metadata from OJS, `ojsr` package allows:
+
+```{r}
+#| eval: false
+  
+?ojsr::get_issues_from_archive() # retrieve issues
+?ojsr::get_articles_from_issue() # retrieve articles
+?ojsr::get_galleys_from_article() # retrieve galleys
+
+```
 
 ### Scientific literature databases
 
