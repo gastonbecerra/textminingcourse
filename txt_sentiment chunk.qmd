@@ -1,0 +1,164 @@
+---
+title: "txt_sentiment chunck"
+format: html
+editor: visual
+---
+
+## Sentiment analysis using packages
+
+In what follows we are going to perform sentiment analysis using packages, particularly with `txt_sentiment` from the `Udpipe` package from [Institute of Formal and Applied Linguistics (ÚFAL)](https://ufal.mff.cuni.cz/about)
+
+The general steps when you want to work with package functions are:
+
+-   consult the documentation;
+
+-   preprocess the data and transform the objects to fit the function requirements;
+
+-   use the function and evaluate the results;
+
+Before using the `txt_sentiment` function we will be doing some pre-processing with a text parser from `Udpipe`. This is a very useful tool for NLP tasks!
+
+The first thing we need to do is install the library. Then, we must download the model of the language that interests us.
+
+```{r}
+#| eval: false
+
+# install.packages("udpipe") # install package
+
+library(udpipe) # load package
+
+model_en <- udpipe::udpipe_download_model('english') # download language model
+model_en$file_model # reference to downloaded model
+model_en <- udpipe_load_model(file = model_en$file_model) # load language model
+
+```
+
+<!--# 2do: poner recursos online, en drive, al menos -->
+
+<!--# 2do: ver que los eval esten corriendo; meter otros para que la compilacion no sea la muerte -->
+
+```{r}
+#| eval: true
+#| echo: false
+
+library(udpipe) 
+model_en <- udpipe_load_model(file = "E:/r/UW - Big Data and Data Mining/data/english-ewt-ud-2.5-191206.udpipe") # load language model
+```
+
+With the model we are ready to start parsing our corpus of sentences, and annotate what type of component each word is.
+
+```{r}
+
+sentences_bd_anotated <- udpipe_annotate( 
+  object = model_en, # language model
+  x = sentences_bd$sentence, # text to parse and annotate
+  doc_id = sentences_bd$sentence_id, # sentence id (result will be 1 row per word)
+  trace = 10
+  ) %>% as.data.frame(.) # convert to data frame
+
+glimpse( sentences_bd_anotated )
+
+```
+
+This annotation has taken care of many typical text pre-processing tasks:
+
+-   *tokenization*: the sentences were split into words (we can use `doc_id` to recreate the sentence);
+
+-   for each word a UPOS type has been noted;
+
+-   word are converted to *lemmas*
+
+We can use `upos` to filter words. This step is an alternative to removing stopwords and words that do not directly provide semantic content (for example, prepositions). *Lemmatization* is a procedure that seeks to reduce words to their non-inflected or conjugated form. It is an alternative to *stemmization*, which attempts to heuristically and iteratively reduce the length of words, removing characters, until they are reduced to their root. Thus, the expression "`Google analyzes big data to infer the rate of contagion of the H1N1 flu`", is lemmatized as "`google analyze big data to infer the rate of contagion of the H1N1 flu`".
+
+Now, let's create a final object with only (possibly) meaningful words.
+
+```{r}
+
+sentences_bd_anotated_meaningful <- sentences_bd_anotated %>% 
+  filter(upos=="ADJ"| upos=="VERB"| upos=="NOUN" | upos=="ADV") 
+
+glimpse(sentences_bd_anotated_meaningful)
+
+```
+
+Now, we are ready to do some sentiment analysis with `txt_sentiment`.
+
+First, we are going to consult the documentation of the package to know what functions we can execute. A good entry point is to check out the vignette, usually a kind of quick introduction to the pack. Another option is to go directly to the function's documentation, where we will find a description of the parameters and examples.
+
+```{r}
+#| eval: false
+
+browseVignettes("udpipe") # vignette
+?udpipe::txt_sentiment # function documentation
+
+```
+
+The `txt_sentiment` parameters are:
+
+-   `x` is the dataframe returned by preprocessing with `udpipe`;
+
+-   `term` is the name of the column (inside `x`) that contains the sentences to parse;
+
+-   `polarity_terms` is a dataframe that contains 2 columns: `terms` and `polarity`, which can be `1` or `-1`. To create this we will use again a *lexicon* from `textdata`
+
+-   `polarity_negators` , `polarity_amplifiers`, `polarity_deamplifiers` are vectors of words that negate, increase or decrease the orientation of words (for example, if we have "good" in the lexicon with a rating of 1, and "very" inside the amplifiers, "very good" could assume a higher rating than the one given by the lexicon, with a factor that is made explicit in amplifier_weight). The window of words in which these words are searched is configured with `n_before` and `n_after`.
+
+Let's prepare our lexicons and other tables.
+
+```{r}
+
+polarity_terms <- affin %>%
+  mutate(polarity = if_else(value > 0, 1, -1)) %>%
+  select(term=word, polarity)
+
+# let set some basic negators, amplifiers and deamplifiers
+
+polarity_negators <- c("not", "never", "nobody")
+polarity_amplifiers <- c("very")
+polarity_deamplifiers <- c("less", "almost")
+
+```
+
+All set! Let's run the function and see the resulting object.
+
+```{r}
+
+sentiment_bd_functions <- udpipe::txt_sentiment(
+  x = sentences_bd_anotated_meaningful,
+  term = "lemma",
+  polarity_terms = polarity_terms,
+  polarity_negators = polarity_negators,
+  polarity_amplifiers = polarity_amplifiers,
+  polarity_deamplifiers = polarity_deamplifiers)
+
+```
+
+In the case of the object returned by `txt_sentiment`, there are 2 objects that we can query:
+
+-   `$data` which has the table resulting from the crossing of the annotated sentences (remember: 1 row x lemma) with the dictionaries and modifiers, giving a final value in `data$sentiment_polarity`;
+
+-   `$overall` which has the table with the values at the sentence level, including the polarity in `$overall$sentiment_polarity`;
+
+Let's look at this last object, to evaluate the results: `txt_sentiment` sums the word scores per sentence, which makes longer sentences expected to show more extreme polarity. For this reason, it may be convenient to normalize this score by the number of words in each sentence:
+
+<!--# 2do: falta incluir otra vez la oracion, para ver que decía -->
+
+<!--# 2do: esto esta mal, no deberia ser por la cantidad de palabras sino por la palabras con valor... -->
+
+```{r}
+
+sentiment_bd_functions$overall %>% 
+  mutate(sentiment_polarity2=sentiment_polarity/terms) %>%
+  slice_max(order_by = sentiment_polarity2, n=10) #%>%
+  #left_join(sentences_bd, by=("doc_id" = "sentence_id")) %>%
+  #select(sentiment_polarity2, sentence)
+
+sentiment_bd_functions$overall %>% 
+  mutate(sentiment_polarity2=sentiment_polarity/terms) %>%
+  slice_min(order_by = sentiment_polarity2, n=10) #%>%
+  #left_join(sentences_bd, by=("doc_id" = "sentence_id")) %>%
+  #select(sentiment_polarity2, sentence)
+
+```
+
+Makes sense, right?
